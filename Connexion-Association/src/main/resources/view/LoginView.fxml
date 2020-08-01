@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane style="-fx-background-color: azure" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.LoginController">
+   <children>
+      <Pane style="-fx-background-color: darkseagreen" layoutX="174.0" layoutY="144.0" prefHeight="300.0" prefWidth="500.0">
+         <children>
+            <Label layoutX="189.0" layoutY="85.0" prefHeight="17.0" prefWidth="59.0" text="Login: " />
+            <TextField fx:id="LoginTextField" layoutX="189.0" layoutY="109.0" />
+            <Label layoutX="189.0" layoutY="150.0" text="Mot de passe: " />
+            <Button fx:id="login" layoutX="266.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#testRoute" prefHeight="25.0" prefWidth="73.0" text="Connexion" textFill="#11bd25" />
+            <Label fx:id="error" layoutX="140.0" layoutY="212.0" prefHeight="17.0" prefWidth="273.0" />
+            <PasswordField fx:id="password" layoutX="189.0" layoutY="174.0" />
+         </children>
+      </Pane>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="349.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/connexion.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

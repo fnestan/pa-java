@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox fx:id="vboxDay" layoutX="25.0" layoutY="30.0" prefHeight="500.0" prefWidth="750.0">
+         <children>
+            <HBox fx:id="lundi" prefHeight="80.0" prefWidth="750.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="81.0" text="Lundi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="mardi" prefHeight="80.0" prefWidth="750.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="46.0" text="Mardi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="mercredi" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="57.0" text="Mercredi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="jeudi" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="42.0" text="Jeudi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="vendredi" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Label text="Vendredi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="samedi" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Label text="Samedi">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="dimanche" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Label text="Dimanche">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.admin.UserController">
+   <children>
+      <TextField fx:id="searchTextField" layoutX="134.0" layoutY="66.0" />
+      <MenuBar fx:id="menuBar" />
+      <ScrollPane layoutY="100.0" prefHeight="498.0" prefWidth="800.0">
+         <content>
+            <VBox fx:id="vboxuser" prefHeight="478.0" prefWidth="790.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: azure" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.manager.TicketController">
+   <children>
+      <MenuBar fx:id="menuBar" layoutY="2.0">
+      </MenuBar>
+      <ScrollPane fx:id="scrolTickets" layoutX="90.0" layoutY="130.0" prefHeight="408.0" prefWidth="619.0">
+         <content>
+            <ListView fx:id="list" prefHeight="402.0" prefWidth="614.0" />
+         </content></ScrollPane>
+      <ImageView fitHeight="101.0" fitWidth="144.0" layoutX="320.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/connexion.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

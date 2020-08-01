@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="266.0" layoutY="28.0" prefHeight="43.0" prefWidth="213.0" text="         Créer un service" textFill="#d50909">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="serviceName" layoutX="275.0" layoutY="116.0" prefHeight="25.0" prefWidth="195.0" />
+      <Label layoutX="280.0" layoutY="91.0" text="Nom du service : " />
+      <Label layoutX="274.0" layoutY="148.0" text="Description : " />
+      <TextArea fx:id="serviceDescription" layoutX="275.0" layoutY="165.0" prefHeight="136.0" prefWidth="213.0" />
+      <Label layoutX="278.0" layoutY="363.0" text="Date :" />
+      <DatePicker fx:id="date" layoutX="271.0" layoutY="388.0" />
+      <Button fx:id="create" layoutX="271.0" layoutY="462.0" mnemonicParsing="false" text="Créer" />
+      <Label layoutX="271.0" layoutY="312.0" text="Quantité : " />
+      <TextField fx:id="quantite" layoutX="269.0" layoutY="329.0" />
+      <ChoiceBox fx:id="hour" layoutX="460.0" layoutY="388.0" prefHeight="25.0" prefWidth="44.0" />
+      <ChoiceBox fx:id="min" layoutX="518.0" layoutY="388.0" prefHeight="25.0" prefWidth="44.0" />
+      <Label layoutX="465.0" layoutY="363.0" text="Heure :" />
+   </children>
+</Pane>
