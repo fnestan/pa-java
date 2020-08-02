@@ -16,15 +16,15 @@ public class ProductService implements IProductService {
         this.restConnector = restConnector;
     }
 
-    public Product createProduct(Product p) throws Exception {
-        Optional<Product> product = null;
+    public Optional<Product> createProduct(Product p) throws Exception {
+        Optional<Product> product = Optional.empty();
         try {
             Product types = restConnector.post("product/create", p, Product.class);
             product = Optional.ofNullable(types);
         } catch (Exception e) {
 
         }
-        return product.orElse(null);
+        return product;
     }
 
     @Override

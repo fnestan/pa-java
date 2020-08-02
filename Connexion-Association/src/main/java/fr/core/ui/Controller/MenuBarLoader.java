@@ -148,8 +148,8 @@ public class MenuBarLoader {
             stage1.show();
             button.setOnAction(event1 -> {
                 ITicketService iTicketService = (ITicketService) ticketService.get();
-                Ticket ticket = iTicketService.createTicket(label.getText());
-                GetTicketController.ticketId = ticket.getId();
+                Optional<Ticket> ticket = iTicketService.createTicket(label.getText());
+                GetTicketController.ticketId = ticket.get().getId();
                 try {
                     ControllerRouter.geneRouter(router, GetTicketController.class);
                 } catch (NoSuchMethodException e) {

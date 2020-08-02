@@ -9,28 +9,33 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 
 public class ServiceConsultationModal {
-    public static Service service;
+    public static Optional<Service> service = Optional.empty();
 
     public static void createModal() {
-        Label labelAnnexName = new Label(service.getAnnex().getName());
-        Label labelServiceName = new Label(service.getNom());
-        Label labelServiceDesc = new Label(service.getDescription());
-        Label labelServiceQty = new Label(Integer.toString(service.getQuantite()));
-        Pane pane = new Pane();
-        pane.setPrefSize(200, 200);
-        VBox vBox = new VBox();
-        vBox.setSpacing(10);
-        vBox.setAlignment(Pos.BASELINE_CENTER);
-        vBox.getChildren().add(labelAnnexName);
-        vBox.getChildren().add(labelServiceName);
-        vBox.getChildren().add(labelServiceDesc);
-        vBox.getChildren().add(labelServiceQty);
-        pane.getChildren().add(vBox);
-        Stage stage = new Stage();
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+        if (service.isPresent()) {
+            Label labelAnnexName = new Label(service.get().getAnnex().getName());
+            Label labelServiceName = new Label(service.get().getNom());
+            Label labelServiceDesc = new Label(service.get().getDescription());
+            Label labelServiceQty = new Label(Integer.toString(service.get().getQuantite()));
+            Pane pane = new Pane();
+            pane.setPrefSize(200, 200);
+            VBox vBox = new VBox();
+            vBox.setSpacing(10);
+            vBox.setAlignment(Pos.BASELINE_CENTER);
+            vBox.getChildren().add(labelAnnexName);
+            vBox.getChildren().add(labelServiceName);
+            vBox.getChildren().add(labelServiceDesc);
+            vBox.getChildren().add(labelServiceQty);
+            pane.getChildren().add(vBox);
+            Stage stage = new Stage();
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
 }

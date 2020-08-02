@@ -63,7 +63,7 @@ public class HomeController {
                     Pane p = new Pane();
                     TextFlow text = new TextFlow(new Text(annex.getName() + "    " + annex.getEmail() +
                             "   " + annex.getStreet() + "   " + annex.getZipCode() + "   "
-                            + annex.getStreet() + "   " + annex.getPhone()));
+                            + annex.getCity() + "   " + annex.getPhone()));
                     p.getChildren().add(text);
                     text.setId(String.valueOf(annex.getId()));
                     this.list.getItems().add(text);

@@ -1,9 +1,6 @@
 package fr.core.ui.Controller.manager;
 
-import fr.core.model.customModel.Manager;
-import fr.core.model.customModel.ProductRequest;
-import fr.core.model.customModel.SearchProduct;
-import fr.core.model.customModel.Session;
+import fr.core.model.customModel.*;
 import fr.core.model.databaseModel.*;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.IProductService;
@@ -74,7 +71,7 @@ public class AnnexDetailController {
     @FXML
     Label zipcode;
 
-    Annex annex;
+    Optional<Annex> annex;
 
     @FXML
     VBox vBox;
@@ -240,7 +237,7 @@ public class AnnexDetailController {
      * affichage des horaire pour une annexe
      */
     private void getAvailabilities() {
-        for (AnnexAvailability annexAvailability : annex.getAnnexAvailabilities()) {
+        for (AnnexAvailability annexAvailability : annex.get().getAnnexAvailabilities()) {
             String day = annexAvailability.getDay().getName();
             Label openning = new Label(annexAvailability.getOpeningTime().toString());
             Label closing = new Label(annexAvailability.getClosingTime().toString());
@@ -306,7 +303,7 @@ public class AnnexDetailController {
         List box = (List) p.getChildren();
         vBox = (VBox) box.get(0);
         vBox.setSpacing(20);
-        for (User user : annex.getUsers()) {
+        for (User user : annex.get().getUsers()) {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
             Label label = new Label(user.getFirstname() + " " + user.getLastname());
@@ -351,10 +348,10 @@ public class AnnexDetailController {
     }
 
     private void deleteManager(Integer idManager) throws Exception {
-        String res = annexService.removeManager(annex.getId(), idManager);
+        Optional<Information> res = annexService.removeManager(annex.get().getId(), idManager);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Suppression d'un manager");
-        alert.setContentText(res);
+        alert.setContentText(res.get().message);
         alert.showAndWait();
         ControllerRouter.geneRouter(router, AnnexDetailController.class);
     }
@@ -362,10 +359,10 @@ public class AnnexDetailController {
     private void addManager(String text) throws Exception {
         Manager manager = new Manager();
         manager.email = text;
-        String res = annexService.addManager(annex.getId(), manager);
+        Optional<Information> res = annexService.addManager(annex.get().getId(), manager);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Ajout d'un manager");
-        alert.setContentText(res);
+        alert.setContentText(res.get().message);
         alert.showAndWait();
         if (res.equals("Le manager à bien été ajouter")) {
             ControllerRouter.geneRouter(router, AnnexDetailController.class);
@@ -396,11 +393,11 @@ public class AnnexDetailController {
         description = (Label) label.get(4);
         donation = (Button) label.get(6);
         service = (Button) label.get(7);
-        name.setText(annex.getName());
-        street.setText(annex.getStreet());
-        city.setText(annex.getCity());
-        zipcode.setText(annex.getZipCode());
-        description.setText(annex.getDescription());
+        name.setText(annex.get().getName());
+        street.setText(annex.get().getStreet());
+        city.setText(annex.get().getCity());
+        zipcode.setText(annex.get().getZipCode());
+        description.setText(annex.get().getDescription());
         service.setOnAction(event -> {
             try {
                 this.listServices();
@@ -433,39 +430,44 @@ public class AnnexDetailController {
             }
         });
         this.servicelistVbox = (VBox) scrollPane.getContent();
-        for (Service service : optionalServices.get()) {
-            if (service.isActif()) {
+        if (optionalServices.isPresent()) {
+            if (optionalServices.get().size() > 0) {
+                for (Service service : optionalServices.get()) {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(20.0);
+                    servicelistVbox.setSpacing(10.0);
+                    Label label = new Label(service.getNom());
+                    Button read = new Button("Consulter");
+                    Button delete = new Button("Supprimer");
+                    read.setOnAction(event -> {
+                        Integer idService = service.getId();
+                        try {
+                            Optional<Service> service1 = annexService.getServiceById(idService);
+                            ServiceConsultationModal.service = service1;
+                            ServiceConsultationModal.createModal();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    delete.setOnAction(event -> {
+                        Integer idService = service.getId();
+                        try {
+                            deleteService(idService);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    hBox.getChildren().add(label);
+                    hBox.getChildren().add(read);
+                    hBox.getChildren().add(delete);
+                    servicelistVbox.getChildren().add(hBox);
+                }
+            } else {
                 HBox hBox = new HBox();
-                hBox.setSpacing(20.0);
-                servicelistVbox.setSpacing(10.0);
-                Label label = new Label(service.getNom());
-                Button read = new Button("Consulter");
-                Button delete = new Button("Supprimer");
-                read.setOnAction(event -> {
-                    Integer idService = service.getId();
-                    try {
-                        Service service1 = annexService.getServiceById(idService);
-                        ServiceConsultationModal.service = service1;
-                        ServiceConsultationModal.createModal();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-                delete.setOnAction(event -> {
-                    Integer idService = service.getId();
-                    try {
-                        deleteService(idService);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-                hBox.getChildren().add(label);
-                hBox.getChildren().add(read);
-                hBox.getChildren().add(delete);
+                hBox.getChildren().add(new Label("Vous n'avez actuellement aucun service que vous pouvez consulter"));
                 servicelistVbox.getChildren().add(hBox);
             }
         }
-
     }
 
     public void createService() throws IOException {
@@ -526,24 +528,18 @@ public class AnnexDetailController {
             }
             Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
             Service service = new Service();
-            service.setAnnexId(annex.getId());
+            service.setAnnexId(annex.get().getId());
             service.setDate_service(date);
             service.setDescription(serviceDescription.getText());
             service.setNom(serviceName.getText());
             service.setQuantite(Integer.parseInt(serviceQuantite.getText()));
             try {
-                Service s = annexService.createService(service);
+                Optional<Service> s = annexService.createService(service);
                 Alert alert = new Alert(null);
                 alert.setTitle("Création d'un service");
-                if (s != null) {
+                if (s.isPresent()) {
                     alert.setAlertType(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Votre service " + s.getNom() + " a bien été créé");
-                    alert.showAndWait();
-                    ControllerRouter.geneRouter(router, AnnexDetailController.class);
-                } else {
-                    alert.setAlertType(Alert.AlertType.ERROR);
-                    alert.setTitle("Création d'un service");
-                    alert.setContentText("Il semblerait que le service n'est pas été créé");
+                    alert.setContentText("Votre service " + s.get().getNom() + " a bien été créé");
                     alert.showAndWait();
                     ControllerRouter.geneRouter(router, AnnexDetailController.class);
                 }
@@ -638,15 +634,15 @@ public class AnnexDetailController {
                 System.out.println(donationName.getText());
                 donation.setDescription(donationDescription.getText());
                 donation.setNom(donationName.getText());
-                donation.setAnnexId(this.annex.getId());
+                donation.setAnnexId(this.annex.get().getId());
                 tableProduct.getItems().forEach(request -> {
                     ProductRequest pr = (ProductRequest) request;
                     donation.getProductRequests().add(pr);
                 });
-                Donation donation1 = annexService.createDonation(donation);
+                Optional<Donation> donation1 = annexService.createDonation(donation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Ajout d'une donation");
-                alert.setContentText("La donation " + donation1.getNom() + " a été ajoutée");
+                alert.setContentText("La donation " + donation1.get().getNom() + " a été ajoutée");
                 alert.showAndWait();
                 try {
                     ControllerRouter.geneRouter(router, AnnexDetailController.class);
@@ -686,7 +682,7 @@ public class AnnexDetailController {
         });
         this.donationlistVbox = (VBox) scrollPane.getContent();
         if (optionalDonation.isPresent()) {
-            if (optionalDonation.get().size() ==0){
+            if (optionalDonation.get().size() == 0) {
                 HBox hBox = new HBox();
                 hBox.getChildren().add(new Label("Il n'y aucune donations disponible"));
                 donationlistVbox.getChildren().add(hBox);
@@ -733,12 +729,14 @@ public class AnnexDetailController {
     }
 
     private void deleteDonation(Integer idDonation) throws Exception {
-        annexService.removeDonation(idDonation);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Suppression d'une donation");
-        alert.setContentText("Donation supprimée");
-        alert.showAndWait();
-        ControllerRouter.geneRouter(router, AnnexDetailController.class);
+        Optional<Information> information = annexService.removeDonation(idDonation);
+        if (information.isPresent()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Suppression d'une donation");
+            alert.setContentText(information.get().message);
+            alert.showAndWait();
+            ControllerRouter.geneRouter(router, AnnexDetailController.class);
+        }
     }
 
 
@@ -774,10 +772,10 @@ public class AnnexDetailController {
                 product.setName(prdName.getText());
                 product.setTypeId(productType.getSelectionModel().getSelectedItem().getId());
                 try {
-                    Product pres = productService.createProduct(product);
+                    Optional<Product> pres = productService.createProduct(product);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Ajout d'un produit");
-                    alert.setContentText("Le produit " + pres.getName() + " a été ajouté");
+                    alert.setContentText("Le produit " + pres.get().getName() + " a été ajouté");
                     alert.showAndWait();
                 } catch (Exception e) {
                     e.printStackTrace();

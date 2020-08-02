@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class GetDonationController {
     public MenuBar menuBar;
@@ -35,11 +36,13 @@ public class GetDonationController {
     }
 
     private void getDonation() throws IOException {
-        Donation donation = this.iAnnexService.getDonationById(donationId);
-        for (int i = 0; i < donation.getRequerirs().size(); i++) {
-            ListViewRequerir.getItems().add(new Label("Nom de la donation : " + donation.getNom() + "  Description : "
-                    + donation.getDescription() +
-                    " Nom du produit :  " + donation.getRequerirs().get(i).getProduct().getName() + " Quantité du produit : " + donation.getRequerirs().get(i).getQuantity() + " " + donation.getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
+        Optional<Donation> donation = this.iAnnexService.getDonationById(donationId);
+        if (donation.isPresent()) {
+            for (int i = 0; i < donation.get().getRequerirs().size(); i++) {
+                ListViewRequerir.getItems().add(new Label("Nom de la donation : " + donation.get().getNom() + "  Description : "
+                        + donation.get().getDescription() +
+                        " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit : " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
+            }
         }
     }
 }

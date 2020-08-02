@@ -1,7 +1,9 @@
 package fr.core.service;
 
-import fr.core.model.databaseModel.Annex;
+import fr.core.model.customModel.CustomService;
+import fr.core.model.customModel.Information;
 import fr.core.model.customModel.Manager;
+import fr.core.model.databaseModel.Annex;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.Service;
 import fr.core.service.inter.IAnnexService;
@@ -29,66 +31,65 @@ public class AnnexService implements IAnnexService {
         return optionalList;
     }
 
-    public Annex getAnnexById(Integer id) throws Exception {
-        Annex optionalAnnex = null;
+    public Optional<Annex> getAnnexById(Integer id) throws Exception {
+        Optional<Annex> optionalAnnex = Optional.empty();
         try {
             Annex annex = restConnector.get("annex/getAnnex/" + id, Annex.class);
-            optionalAnnex = annex;
+            optionalAnnex = Optional.ofNullable(annex);
         } catch (Exception e) {
 
         }
         return optionalAnnex;
     }
 
-    public String addManager(Integer id, Manager data) throws Exception {
-        String optionalResponse = null;
+    public Optional<Information> addManager(Integer id, Manager data) throws Exception {
+        Optional<Information> optionalResponse = Optional.empty();
         System.out.println(data.email);
         try {
-            String response = restConnector.post("annex/" + id + "/addmanager", data, String.class);
-            optionalResponse = response;
+            Information response = restConnector.post("annex/" + id + "/addmanager", data, Information.class);
+            optionalResponse = Optional.ofNullable(response);
         } catch (Exception e) {
 
         }
         return optionalResponse;
     }
 
-    public String removeManager(Integer annexId, Integer userId) throws Exception {
-        String optionalResponse = null;
+    public Optional<Information> removeManager(Integer annexId, Integer userId) throws Exception {
+        Optional<Information> optionalResponse = Optional.empty();
         try {
-            String response = restConnector.get("annex/" + annexId + "/removeManager/" + userId, String.class);
-            optionalResponse = response;
+            Information response = restConnector.get("annex/" + annexId + "/removeManager/" + userId, Information.class);
+            optionalResponse = Optional.ofNullable(response);
         } catch (Exception e) {
 
         }
         return optionalResponse;
     }
 
-    public Service createService(Service data) throws Exception {
-        Optional<Service> optionalResponse = null;
+    public Optional<Service> createService(Service data) throws Exception {
+        Optional<Service> optionalResponse = Optional.empty();
         try {
             Service response = restConnector.post("annex/service/" + data.getAnnexId(), data, Service.class);
-            optionalResponse = Optional.of(response);
+            optionalResponse = Optional.ofNullable(response);
         } catch (Exception e) {
 
         }
-        return optionalResponse.orElse(null);
+        return optionalResponse;
     }
 
     public Optional<List<Service>> listServices(Integer idAnnex) {
-        Optional<List<Service>> optionalResponse = null;
+        Optional<List<Service>> optionalResponse = Optional.empty();
         try {
-            List<Service> response = Arrays.asList(restConnector.get("/annex/" + idAnnex + "/service/list", Service[].class));
-            optionalResponse = Optional.of(response);
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/annex/" + idAnnex + "/service/list", Service[].class)));
         } catch (Exception e) {
 
         }
         return optionalResponse;
     }
 
-    public Integer[] removeService(Integer serviceId) throws Exception {
-        Integer[] optionalResponse = null;
+    public Optional<Information> removeService(Integer serviceId) throws Exception {
+        Optional<Information> optionalResponse = Optional.empty();
         try {
-            optionalResponse = restConnector.put("/annex/service/delete/" + serviceId, null, Integer[].class);
+            optionalResponse = Optional.ofNullable(restConnector.put("/annex/service/delete/" + serviceId, null, Information.class));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -96,15 +97,14 @@ public class AnnexService implements IAnnexService {
     }
 
     @Override
-    public Donation createDonation(Donation donation) {
+    public Optional<Donation> createDonation(Donation donation) {
         Optional<Donation> optionalResponse = null;
         try {
-            Donation response = restConnector.post("donation/" + donation.getAnnexId(), donation, Donation.class);
-            optionalResponse = Optional.of(response);
+            optionalResponse = Optional.ofNullable(restConnector.post("donation/" + donation.getAnnexId(), donation, Donation.class));
         } catch (Exception e) {
 
         }
-        return optionalResponse.orElse(null);
+        return optionalResponse;
     }
 
     @Override
@@ -118,20 +118,20 @@ public class AnnexService implements IAnnexService {
         return optionalResponse;
     }
 
-    public Integer[] removeDonation(Integer donationId) throws Exception {
-        Integer[] optionalResponse = null;
+    public Optional<Information> removeDonation(Integer donationId) throws Exception {
+        Optional<Information> optionalResponse = null;
         try {
-            optionalResponse = restConnector.put("/annex/donation/delete/" + donationId, null, Integer[].class);
+            optionalResponse = Optional.ofNullable(restConnector.put("/annex/donation/delete/" + donationId, null, Information.class));
         } catch (Exception e) {
             System.out.println(e);
         }
         return optionalResponse;
     }
 
-    public Donation getDonationById(Integer donationId) {
-        Donation optionalResponse = null;
+    public Optional<Donation> getDonationById(Integer donationId) {
+        Optional<Donation> optionalResponse = Optional.empty();
         try {
-            optionalResponse = restConnector.get("/donation/get/" + donationId, Donation.class);
+            optionalResponse = Optional.ofNullable(restConnector.get("/donation/get/" + donationId, Donation.class));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -139,13 +139,13 @@ public class AnnexService implements IAnnexService {
     }
 
     @Override
-    public Service getServiceById(Integer idService) {
-        Service optionalResponse = null;
+    public Optional<Service> getServiceById(Integer idService) {
+        Optional<CustomService> optionalResponse = Optional.empty();
         try {
-            optionalResponse = restConnector.get("/donation/get/" + idService, Service.class);
+            optionalResponse = Optional.ofNullable(restConnector.get("/service/get/" + idService, CustomService.class));
         } catch (Exception e) {
             System.out.println(e);
         }
-        return optionalResponse;
+        return Optional.ofNullable(optionalResponse.get().getService());
     }
 }

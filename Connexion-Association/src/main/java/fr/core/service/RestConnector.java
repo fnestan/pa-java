@@ -82,8 +82,6 @@ public class RestConnector implements IRestConnector {
             Information information = (Information) mapper.getObject(result.toString(), Information.class);
             return SendError(information);
         }
-        System.out.println(response.getStatusLine().getStatusCode());
-        System.out.println(result.toString());
         return mapper.getObject(result.toString(), type);
     }
 

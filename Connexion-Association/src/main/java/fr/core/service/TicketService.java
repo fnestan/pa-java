@@ -1,5 +1,6 @@
 package fr.core.service;
 
+import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.Ticket;
 import fr.core.service.inter.IRestConnector;
 import fr.core.service.inter.ITicketService;
@@ -17,14 +18,14 @@ public class TicketService implements ITicketService {
     }
 
     @Override
-    public Ticket createTicket(String data) {
+    public Optional<Ticket> createTicket(String data) {
+
         var values = new HashMap<String, String>() {{
             put("label", data);
         }};
-        System.out.println("hi there");
-        Ticket ticket = null;
+        Optional<Ticket> ticket = Optional.empty();
         try {
-            ticket = iRestConnector.post("ticket/create", values, Ticket.class);
+            ticket = Optional.ofNullable(iRestConnector.post("ticket/create", values, Ticket.class));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -32,13 +33,13 @@ public class TicketService implements ITicketService {
     }
 
     @Override
-    public Ticket createMessage(Integer idTicket, String message) {
+    public Optional<Ticket> createMessage(Integer idTicket, String message) {
         var values = new HashMap<String, String>() {{
             put("message", message);
         }};
-        Ticket ticket = null;
+        Optional<Ticket> ticket = Optional.empty();
         try {
-            ticket = iRestConnector.post("ticket/" + idTicket + "/message", values, Ticket.class);
+            ticket = Optional.ofNullable(iRestConnector.post("ticket/" + idTicket + "/message", values, Ticket.class));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -46,10 +47,10 @@ public class TicketService implements ITicketService {
     }
 
     @Override
-    public String closeTicket(Integer IdTicket) {
-        String ticket = null;
+    public Optional<Information> closeTicket(Integer IdTicket) {
+        Optional<Information> ticket = Optional.empty();
         try {
-            ticket = iRestConnector.get("ticket/" + IdTicket + "/close", String.class);
+            ticket = Optional.ofNullable(iRestConnector.get("ticket/" + IdTicket + "/close", Information.class));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -57,39 +58,38 @@ public class TicketService implements ITicketService {
     }
 
     @Override
-    public List<Ticket> getMyTicket() {
-        Optional<List<Ticket>> optionalList = null;
+    public Optional<List<Ticket>> getMyTicket() {
+        Optional<List<Ticket>> optionalList = Optional.empty();
         try {
             List<Ticket> tickets = Arrays.asList(iRestConnector.get("ticket/myTickets", Ticket[].class));
-            optionalList = Optional.of(tickets);
+            optionalList = Optional.ofNullable(tickets);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return optionalList.orElse(null);
+        return optionalList;
     }
 
     @Override
-    public List<Ticket> getAllTickets() {
-        Optional<List<Ticket>> optionalList = null;
+    public Optional<List<Ticket>> getAllTickets() {
+        Optional<List<Ticket>> optionalList = Optional.empty();
         try {
             List<Ticket> tickets = Arrays.asList(iRestConnector.get("ticket/all", Ticket[].class));
-            optionalList = Optional.of(tickets);
-            System.out.println(tickets.size());
+            optionalList = Optional.ofNullable(tickets);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return optionalList.orElse(null);
+        return optionalList;
     }
 
     @Override
-    public Ticket getTicketById(Integer idTicket) {
-        Optional<Ticket> optionalTicket = null;
+    public Optional<Ticket> getTicketById(Integer idTicket) {
+        Optional<Ticket> optionalTicket = Optional.empty();
         try {
             Ticket tickets = iRestConnector.get("ticket/" + idTicket, Ticket.class);
-            optionalTicket = Optional.of(tickets);
+            optionalTicket = Optional.ofNullable(tickets);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return optionalTicket.orElse(null);
+        return optionalTicket;
     }
 }
