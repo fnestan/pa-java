@@ -60,16 +60,16 @@ public class AnnexDetailController {
     Button donation;
 
     @FXML
-    Label name;
+    TextField name;
 
     @FXML
-    Label description;
+    TextArea description;
     @FXML
-    Label street;
+    TextField street;
     @FXML
-    Label city;
+    TextField city;
     @FXML
-    Label zipcode;
+    TextField zipcode;
 
     Optional<Annex> annex;
 
@@ -168,7 +168,7 @@ public class AnnexDetailController {
 
     public void setAnnexService(IAnnexService annexService) throws Exception {
         this.annexService = annexService;
-        test();
+        init();
     }
 
     public void setTypeService(ITypeService typeService) {
@@ -179,8 +179,9 @@ public class AnnexDetailController {
         this.productService = productService;
     }
 
-    public void test() throws Exception {
+    public void init() throws Exception {
         this.findAnnex();
+        this.genericDetail();
         this.detail.setOnAction(event -> {
             try {
                 this.genericDetail();
@@ -385,14 +386,20 @@ public class AnnexDetailController {
 
     private void getGenericDetail() {
         Pane p = (Pane) border.getChildren().get(0);
-        List label = (List) p.getChildren();
-        name = (Label) label.get(0);
-        street = (Label) label.get(1);
-        city = (Label) label.get(2);
-        zipcode = (Label) label.get(3);
-        description = (Label) label.get(4);
-        donation = (Button) label.get(6);
-        service = (Button) label.get(7);
+        List textField = (List) p.getChildren();
+        name = (TextField) textField.get(0);
+        name.setDisable(true);
+        street = (TextField) textField.get(1);
+        street.setDisable(true);
+        city = (TextField) textField.get(2);
+        city.setDisable(true);
+        zipcode = (TextField) textField.get(3);
+        zipcode.setDisable(true);
+        description = (TextArea) textField.get(4);
+        description.setWrapText(true);
+        description.setDisable(true);
+        donation = (Button) textField.get(6);
+        service = (Button) textField.get(7);
         name.setText(annex.get().getName());
         street.setText(annex.get().getStreet());
         city.setText(annex.get().getCity());
@@ -477,6 +484,7 @@ public class AnnexDetailController {
         Pane p = (Pane) border.getChildren().get(0);
         serviceName = (TextField) p.getChildren().get(1);
         serviceDescription = (TextArea) p.getChildren().get(4);
+        serviceDescription.setWrapText(true);
         date = (DatePicker) p.getChildren().get(6);
         create = (Button) p.getChildren().get(7);
         serviceQuantite = (TextField) p.getChildren().get(9);
@@ -556,6 +564,7 @@ public class AnnexDetailController {
         Pane p = (Pane) border.getChildren().get(0);
         donationName = (TextField) p.getChildren().get(1);
         donationDescription = (TextArea) p.getChildren().get(4);
+        donationDescription.setWrapText(true);
         tableProduct = (TableView) p.getChildren().get(6);
         createDonation = (Button) p.getChildren().get(5);
         productList = (ChoiceBox<Product>) p.getChildren().get(7);

@@ -1,5 +1,6 @@
 package fr.core.service;
 
+import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.User;
 import fr.core.model.customModel.ValidationResponse;
 import fr.core.service.inter.IRestConnector;
@@ -11,13 +12,14 @@ import java.util.Optional;
 
 public class UserService implements IUserService {
     IRestConnector restConnector;
+
     public void setRestConnector(IRestConnector restConnector) {
         this.restConnector = restConnector;
     }
 
 
-    public List<User>  users() throws Exception {
-        Optional<List<User>> optionalList = null;
+    public Optional<List<User>> users() throws Exception {
+        Optional<List<User>> optionalList = Optional.empty();
         try {
             List<User> users = Arrays.asList(restConnector.get("user/get/all", User[].class));
             optionalList = Optional.of(users);
@@ -25,34 +27,36 @@ public class UserService implements IUserService {
             System.out.println(e);
             return null;
         }
-        return optionalList.get();
+        return optionalList;
     }
 
-    public void banUser(Integer idUser) throws Exception {
+    public Information banUser(Integer idUser) throws Exception {
+        Information information = new Information();
         try {
-            restConnector.get("user/ban/" + idUser, void.class);
+            information = restConnector.get("user/ban/" + idUser, Information.class);
         } catch (Exception e) {
 
         }
+        return information;
     }
 
-    public User validateUser(Integer idUser, ValidationResponse answer) throws Exception {
-        User user = null;
+    public Information validateUser(Integer idUser, ValidationResponse answer) throws Exception {
+        Information information = new Information();
         try {
-            user = restConnector.put("user/validateUser/" + idUser, answer, User.class);
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return user;
-    }
-
-    public User validateVolunteer(int id, ValidationResponse validationResponse) {
-        User user = null;
-        try {
-            user = restConnector.put("user/validateVolunter/" + id, validationResponse, User.class);
+            information = restConnector.put("user/validateUser/" + idUser, answer, Information.class);
         } catch (Exception e) {
             e.getStackTrace();
         }
-        return user;
+        return information;
+    }
+
+    public Information validateVolunteer(int id, ValidationResponse validationResponse) {
+        Information information = new Information();
+        try {
+            information = restConnector.put("user/validateVolunter/" + id, validationResponse, Information.class);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return information;
     }
 }

@@ -69,7 +69,15 @@ public class RestConnector implements IRestConnector {
     }
 
     public <T> T executeRequest(HttpClient client, HttpUriRequest methode, Class<T> type) throws Exception {
-        HttpResponse response = client.execute(methode);
+        HttpResponse response = null;
+        try {
+            response = client.execute(methode);
+        } catch (Exception e) {
+            Information information = new Information();
+            information.message = "Il semblerait que le serveur soit inaccessible, veuillez réesayer ulterieurement, \n" +
+                    " si l'erreur persiste, contacter l'administrateur du site";
+            return SendError(information);
+        }
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent()));
 
@@ -87,7 +95,7 @@ public class RestConnector implements IRestConnector {
 
     private <T> T SendError(Information object) {
         MessageInterceptor.mesage = object.message;
-        DialogModal.intercet("test", MessageInterceptor.mesage);
+        DialogModal.intercet("Erreur", MessageInterceptor.mesage);
         return (T) object;
     }
 }

@@ -17,7 +17,7 @@ public class TypeService implements ITypeService {
 
     public Optional<List<Type>> getAllTypes() throws Exception {
 
-        Optional<List<Type>> optionalTypes = null;
+        Optional<List<Type>> optionalTypes = Optional.empty();
         try {
             List<Type> types = Arrays.asList(restConnector.get("types", Type[].class));
             optionalTypes = Optional.ofNullable(types);
