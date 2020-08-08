@@ -983,9 +983,4 @@ public class AnnexDetailController {
         alert.showAndWait();
         this.listServices();
     }
-
-    @FXML
-    public void mondayAvailability() {
-        System.out.println("toto");
-    }
 }
