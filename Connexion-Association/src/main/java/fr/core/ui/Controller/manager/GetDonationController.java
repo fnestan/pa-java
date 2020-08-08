@@ -3,17 +3,22 @@ package fr.core.ui.Controller.manager;
 import fr.core.model.databaseModel.Donation;
 import fr.core.service.inter.IAnnexService;
 import fr.core.ui.Controller.MenuBarLoader;
+import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 public class GetDonationController {
     public MenuBar menuBar;
     public Label labelDonationName;
     public Label labelDonationDescription;
+    public Button back;
     public ListView ListViewRequerir;
     public ScrollPane scroll;
     private Router router;
@@ -37,12 +42,17 @@ public class GetDonationController {
 
     private void getDonation() throws IOException {
         Optional<Donation> donation = this.iAnnexService.getDonationById(donationId);
+        labelDonationName.setText(donation.get().getNom());
+        labelDonationDescription.setText(donation.get().getDescription());
         if (donation.isPresent()) {
             for (int i = 0; i < donation.get().getRequerirs().size(); i++) {
-                ListViewRequerir.getItems().add(new Label("Nom de la donation : " + donation.get().getNom() + "  Description : "
-                        + donation.get().getDescription() +
+                ListViewRequerir.getItems().add(new Label(
                         " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit : " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
             }
         }
+    }
+
+    public void back(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
+        ControllerRouter.geneRouter(router, AnnexDetailController.class);
     }
 }

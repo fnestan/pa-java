@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.sql.Time;
+import java.time.LocalTime;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @Getter

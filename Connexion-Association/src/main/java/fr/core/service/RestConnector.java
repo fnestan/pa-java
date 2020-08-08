@@ -36,7 +36,6 @@ public class RestConnector implements IRestConnector {
     public <T, V> T post(String url, V data, Class<T> type) throws Exception {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(baseUrl + url);
-        System.out.println(baseUrl + url);
         String d = mapper.toJsonString(data);
         StringEntity httpEntity = new StringEntity(d, ContentType.APPLICATION_FORM_URLENCODED);
         post.setEntity(httpEntity);
@@ -90,6 +89,7 @@ public class RestConnector implements IRestConnector {
             Information information = (Information) mapper.getObject(result.toString(), Information.class);
             return SendError(information);
         }
+        System.out.println(result.toString());
         return mapper.getObject(result.toString(), type);
     }
 

@@ -4,6 +4,7 @@ import fr.core.model.customModel.CustomService;
 import fr.core.model.customModel.Information;
 import fr.core.model.customModel.Manager;
 import fr.core.model.databaseModel.Annex;
+import fr.core.model.databaseModel.AnnexAvailability;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.Service;
 import fr.core.service.inter.IAnnexService;
@@ -86,10 +87,10 @@ public class AnnexService implements IAnnexService {
         return optionalResponse;
     }
 
-    public Optional<Information> removeService(Integer serviceId) throws Exception {
-        Optional<Information> optionalResponse = Optional.empty();
+    public Optional<List<Service>> removeService(Integer serviceId) throws Exception {
+        Optional<List<Service>> optionalResponse = Optional.empty();
         try {
-            optionalResponse = Optional.ofNullable(restConnector.put("/annex/service/delete/" + serviceId, null, Information.class));
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.put("/annex/service/delete/" + serviceId, null, Service.class)));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -118,10 +119,10 @@ public class AnnexService implements IAnnexService {
         return optionalResponse;
     }
 
-    public Optional<Information> removeDonation(Integer donationId) throws Exception {
-        Optional<Information> optionalResponse = null;
+    public Optional<List<Donation>> removeDonation(Integer donationId) throws Exception {
+        Optional<List<Donation>> optionalResponse = null;
         try {
-            optionalResponse = Optional.ofNullable(restConnector.put("/annex/donation/delete/" + donationId, null, Information.class));
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.put("/annex/donation/delete/" + donationId, null, Donation.class)));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -131,7 +132,7 @@ public class AnnexService implements IAnnexService {
     public Optional<Donation> getDonationById(Integer donationId) {
         Optional<Donation> optionalResponse = Optional.empty();
         try {
-            optionalResponse = Optional.ofNullable(restConnector.get("/donation/get/" + donationId, Donation.class));
+            optionalResponse = Optional.ofNullable(restConnector.get("donation/get/" + donationId, Donation.class));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -142,10 +143,51 @@ public class AnnexService implements IAnnexService {
     public Optional<Service> getServiceById(Integer idService) {
         Optional<CustomService> optionalResponse = Optional.empty();
         try {
-            optionalResponse = Optional.ofNullable(restConnector.get("/service/get/" + idService, CustomService.class));
+            optionalResponse = Optional.ofNullable(restConnector.get("service/get/" + idService, CustomService.class));
         } catch (Exception e) {
             System.out.println(e);
         }
         return Optional.ofNullable(optionalResponse.get().getService());
     }
+
+    @Override
+    public Optional<Information> updateAnnex(Annex annex) {
+        Optional<Information> optionalResponse = Optional.empty();
+        try {
+            Information response = restConnector.put("annex/update/" + annex.getId(), annex, Information.class);
+            optionalResponse = Optional.ofNullable(response);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return optionalResponse;
+    }
+
+    @Override
+    public Optional<Annex> createAvailability(Integer idAnnex, AnnexAvailability annexAvailability) throws Exception {
+        Optional<Annex> optionalAnnex = Optional.empty();
+        try {
+            Annex annex = restConnector.post("annex/availability/create/" + idAnnex, annexAvailability, Annex.class);
+            optionalAnnex = Optional.ofNullable(annex);
+        } catch (Exception e) {
+
+        }
+        return optionalAnnex;
+    }
+
+    @Override
+    public Optional<Annex> deleteAvailability(Integer idAnnexAvailability) throws Exception {
+        Optional<Annex> optionalAnnex = Optional.empty();
+        try {
+            Annex annex = restConnector.delete("annex/deleteAvailable/" + idAnnexAvailability, Annex.class);
+            optionalAnnex = Optional.ofNullable(annex);
+        } catch (Exception e) {
+
+        }
+        return optionalAnnex;
+    }
 }
+
+
+/**
+ * /annex/update/:id
+ */

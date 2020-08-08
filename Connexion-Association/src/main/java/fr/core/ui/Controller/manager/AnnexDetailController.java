@@ -27,6 +27,10 @@ import javafx.util.StringConverter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -70,6 +74,10 @@ public class AnnexDetailController {
     TextField city;
     @FXML
     TextField zipcode;
+    @FXML
+    TextField email;
+    @FXML
+    TextField phone;
 
     Optional<Annex> annex;
 
@@ -128,6 +136,9 @@ public class AnnexDetailController {
     ChoiceBox<Type> productType;
     @FXML
     Button saveProduct;
+
+    @FXML
+    Button update;
     @FXML
     TextField prdName;
 
@@ -143,6 +154,29 @@ public class AnnexDetailController {
 
     @FXML
     Button callServiceformButton;
+
+    @FXML
+    Button mondayAdd;
+    @FXML
+    Button tuesdayAdd;
+    @FXML
+    Button wednesdayAdd;
+    @FXML
+    Button thursdayAdd;
+    @FXML
+    Button fridayAdd;
+    @FXML
+    Button saturdayAdd;
+    @FXML
+    Button sundayAdd;
+
+    @FXML
+    TextField ouverture;
+    @FXML
+    TextField fermeture;
+
+    @FXML
+    Button creerHoraire;
 
     Integer nbStageCreationProduct = 0;
 
@@ -224,6 +258,62 @@ public class AnnexDetailController {
         vendredi = (HBox) vboxDay.getChildren().get(4);
         samedi = (HBox) vboxDay.getChildren().get(5);
         dimanche = (HBox) vboxDay.getChildren().get(6);
+        mondayAdd = (Button) lundi.getChildren().get(1);
+        tuesdayAdd = (Button) mardi.getChildren().get(1);
+        wednesdayAdd = (Button) mercredi.getChildren().get(1);
+        thursdayAdd = (Button) jeudi.getChildren().get(1);
+        fridayAdd = (Button) vendredi.getChildren().get(1);
+        saturdayAdd = (Button) samedi.getChildren().get(1);
+        sundayAdd = (Button) dimanche.getChildren().get(1);
+        mondayAdd.setOnAction(event -> {
+            try {
+                createAvailability(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        tuesdayAdd.setOnAction(event -> {
+            try {
+                createAvailability(2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        wednesdayAdd.setOnAction(event -> {
+            try {
+                createAvailability(3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thursdayAdd.setOnAction(event -> {
+            try {
+                createAvailability(4);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        fridayAdd.setOnAction(event -> {
+            try {
+                createAvailability(5);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        saturdayAdd.setOnAction(event -> {
+            try {
+                createAvailability(6);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        sundayAdd.setOnAction(event -> {
+            try {
+                createAvailability(7);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         lundi.setSpacing(20);
         mardi.setSpacing(20);
         mercredi.setSpacing(20);
@@ -234,6 +324,32 @@ public class AnnexDetailController {
         this.getAvailabilities();
     }
 
+    private void createAvailability(int i) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/view/manager/createAvailabilityView.fxml"));
+        Parent view = fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Créer un horaire");
+        Scene scene = new Scene(view);
+        stage.setScene(scene);
+        stage.show();
+        ouverture = (TextField) view.getChildrenUnmodifiable().get(3);
+        fermeture = (TextField) view.getChildrenUnmodifiable().get(4);
+        creerHoraire = (Button) view.getChildrenUnmodifiable().get(5);
+        creerHoraire.setOnAction(event -> {
+            AnnexAvailability annexAvailability = new AnnexAvailability();
+            annexAvailability.setOpeningTime(Time.valueOf(LocalTime.parse(ouverture.getText())));
+            annexAvailability.setClosingTime(Time.valueOf(LocalTime.parse(fermeture.getText())));
+            annexAvailability.setDayId(i);
+            try {
+                annex = annexService.createAvailability(annex.get().getId(), annexAvailability);
+                stage.close();
+                this.availabilities();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     /**
      * affichage des horaire pour une annexe
      */
@@ -242,39 +358,56 @@ public class AnnexDetailController {
             String day = annexAvailability.getDay().getName();
             Label openning = new Label(annexAvailability.getOpeningTime().toString());
             Label closing = new Label(annexAvailability.getClosingTime().toString());
+            Button delete = new Button("-");
             HBox.setMargin(openning, new Insets(25, 1, 1, 1));
             HBox.setMargin(closing, new Insets(25, 1, 1, 1));
+            HBox.setMargin(delete, new Insets(25, 1, 1, 1));
 
             switch (day) {
                 case "Lundi":
                     this.lundi.getChildren().add(openning);
                     this.lundi.getChildren().add(closing);
+                    this.lundi.getChildren().add(delete);
                     break;
                 case "Mardi":
                     this.mardi.getChildren().add(openning);
                     this.mardi.getChildren().add(closing);
+                    this.mardi.getChildren().add(delete);
                     break;
                 case "Mercredi":
                     this.mercredi.getChildren().add(openning);
                     this.mercredi.getChildren().add(closing);
+                    this.mercredi.getChildren().add(delete);
                     break;
                 case "Jeudi":
                     this.jeudi.getChildren().add(openning);
                     this.jeudi.getChildren().add(closing);
+                    this.jeudi.getChildren().add(delete);
                     break;
                 case "Vendredi":
                     this.vendredi.getChildren().add(openning);
                     this.vendredi.getChildren().add(closing);
+                    this.vendredi.getChildren().add(delete);
                     break;
                 case "Samedi":
                     this.samedi.getChildren().add(openning);
                     this.samedi.getChildren().add(closing);
+                    this.samedi.getChildren().add(delete);
                     break;
                 case "Dimanche":
                     this.dimanche.getChildren().add(openning);
                     this.dimanche.getChildren().add(closing);
+                    this.dimanche.getChildren().add(delete);
                     break;
             }
+            delete.setOnAction(event -> {
+                try {
+                    annex = annexService.deleteAvailability(annexAvailability.getId());
+                    this.availabilities();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
@@ -389,22 +522,61 @@ public class AnnexDetailController {
         List textField = (List) p.getChildren();
         name = (TextField) textField.get(0);
         name.setDisable(true);
-        street = (TextField) textField.get(1);
+        phone = (TextField) textField.get(1);
+        phone.setDisable(true);
+        email = (TextField) textField.get(2);
+        email.setDisable(true);
+        street = (TextField) textField.get(3);
         street.setDisable(true);
-        city = (TextField) textField.get(2);
+        city = (TextField) textField.get(4);
         city.setDisable(true);
-        zipcode = (TextField) textField.get(3);
+        zipcode = (TextField) textField.get(5);
         zipcode.setDisable(true);
-        description = (TextArea) textField.get(4);
+        description = (TextArea) textField.get(6);
         description.setWrapText(true);
         description.setDisable(true);
-        donation = (Button) textField.get(6);
-        service = (Button) textField.get(7);
+        update = (Button) textField.get(7);
+        donation = (Button) textField.get(8);
+        service = (Button) textField.get(9);
         name.setText(annex.get().getName());
+        phone.setText(String.valueOf(annex.get().getPhone()));
+        email.setText(annex.get().getEmail());
         street.setText(annex.get().getStreet());
         city.setText(annex.get().getCity());
         zipcode.setText(annex.get().getZipCode());
         description.setText(annex.get().getDescription());
+        update.setOnAction(event -> {
+            name.setDisable(false);
+            email.setDisable(false);
+            phone.setDisable(false);
+            street.setDisable(false);
+            city.setDisable(false);
+            zipcode.setDisable(false);
+            description.setDisable(false);
+            update.setOnAction(event1 -> {
+                annex.get().setDescription(description.getText());
+                annex.get().setEmail(email.getText());
+                annex.get().setCity(city.getText());
+                annex.get().setName(name.getText());
+                annex.get().setZipCode(zipcode.getText());
+                annex.get().setStreet(street.getText());
+                annex.get().setPhone(Integer.parseInt(phone.getText()));
+                Optional<Information> information = this.annexService.updateAnnex(annex.get());
+                Alert alert = new Alert(null);
+                alert.setTitle("Création d'un service");
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setContentText(information.get().message);
+                alert.showAndWait();
+                try {
+                    this.genericDetail();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        });
         service.setOnAction(event -> {
             try {
                 this.listServices();
@@ -471,7 +643,7 @@ public class AnnexDetailController {
                 }
             } else {
                 HBox hBox = new HBox();
-                hBox.getChildren().add(new Label("Vous n'avez actuellement aucun service que vous pouvez consulter"));
+                hBox.getChildren().add(new Label("Vous n'avez aucun service consultable"));
                 servicelistVbox.getChildren().add(hBox);
             }
         }
@@ -693,7 +865,7 @@ public class AnnexDetailController {
         if (optionalDonation.isPresent()) {
             if (optionalDonation.get().size() == 0) {
                 HBox hBox = new HBox();
-                hBox.getChildren().add(new Label("Il n'y aucune donations disponible"));
+                hBox.getChildren().add(new Label("Il n'y aucune donation disponible"));
                 donationlistVbox.getChildren().add(hBox);
             }
             for (Donation donation : optionalDonation.get()) {
@@ -738,14 +910,12 @@ public class AnnexDetailController {
     }
 
     private void deleteDonation(Integer idDonation) throws Exception {
-        Optional<Information> information = annexService.removeDonation(idDonation);
-        if (information.isPresent()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Suppression d'une donation");
-            alert.setContentText(information.get().message);
-            alert.showAndWait();
-            ControllerRouter.geneRouter(router, AnnexDetailController.class);
-        }
+        Optional<List<Donation>> donations = annexService.removeDonation(idDonation);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Suppression d'une donation");
+        alert.setContentText("L'annexe a bien été supprimée");
+        alert.showAndWait();
+        this.listDonation();
     }
 
 
@@ -806,11 +976,16 @@ public class AnnexDetailController {
     }
 
     private void deleteService(Integer idService) throws Exception {
-        annexService.removeService(idService);
+        Optional<List<Service>> services = annexService.removeService(idService);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Suppression d'un service");
         alert.setContentText("Service supprimé");
         alert.showAndWait();
-        ControllerRouter.geneRouter(router, AnnexDetailController.class);
+        this.listServices();
+    }
+
+    @FXML
+    public void mondayAvailability() {
+        System.out.println("toto");
     }
 }

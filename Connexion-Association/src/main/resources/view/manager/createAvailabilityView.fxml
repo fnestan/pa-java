@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="161.0" layoutY="24.0" prefHeight="18.0" prefWidth="109.0" text="NOUVEL HORAIRE" textFill="#d50909" />
+      <Label layoutX="69.0" layoutY="87.0" prefHeight="18.0" prefWidth="91.0" text="Ouverture :" />
+      <Label layoutX="271.0" layoutY="87.0" text="Fermeture : " />
+      <TextField fx:id="ouverture" layoutX="58.0" layoutY="113.0" prefHeight="26.0" prefWidth="80.0" promptText="HH:MM" />
+      <TextField fx:id="fermeture" layoutX="271.0" layoutY="113.0" prefHeight="26.0" prefWidth="80.0" promptText="HH:MM" />
+      <Button fx:id="creerHoraire" layoutX="190.0" layoutY="163.0" mnemonicParsing="false" text="Créer" />
+   </children>
+</AnchorPane>

@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.manager.GetDonationController">
     <children>
         <MenuBar fx:id="menuBar" layoutY="2.0" />
-        <Label fx:id="labelDonationName" layoutX="139.0" layoutY="39.0" prefHeight="18.0" prefWidth="522.0" />
-        <Label fx:id="labelDonationDescription" layoutX="139.0" layoutY="39.0" prefHeight="18.0" prefWidth="522.0" />
-        <ScrollPane fx:id="scroll" prefHeight="379.0" prefWidth="800.0" AnchorPane.topAnchor="70.0">
+        <Label fx:id="labelDonationName" layoutX="130.0" layoutY="39.0" prefHeight="18.0" prefWidth="522.0" />
+        <Label fx:id="labelDonationDescription" layoutX="200.0" layoutY="39.0" prefHeight="18.0" prefWidth="522.0" />
+        <ScrollPane fx:id="scroll" layoutY="125.0" prefHeight="380.0" prefWidth="800.0" AnchorPane.topAnchor="125.0">
          <content>
-            <ListView fx:id="ListViewRequerir" prefHeight="500.0" prefWidth="500.0" />
+            <ListView fx:id="ListViewRequerir" prefHeight="370.0" prefWidth="790.0" />
          </content></ScrollPane>
+      <Button fx:id="back" onAction="#back" contentDisplay="TOP" layoutY="36.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="45.0">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/arrow-back-outline.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

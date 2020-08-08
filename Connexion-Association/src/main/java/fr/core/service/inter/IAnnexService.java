@@ -3,6 +3,7 @@ package fr.core.service.inter;
 import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.Annex;
 import fr.core.model.customModel.Manager;
+import fr.core.model.databaseModel.AnnexAvailability;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.Service;
 
@@ -22,15 +23,22 @@ public interface IAnnexService {
 
     Optional<List<Service>> listServices(Integer idAnnex);
 
-    public Optional<Information> removeService(Integer serviceId) throws Exception;
+    public Optional<List<Service>> removeService(Integer serviceId) throws Exception;
 
     Optional<Donation> createDonation(Donation donation);
 
     Optional<List<Donation>> listDonations(Integer idAnnex);
 
-    public Optional<Information> removeDonation(Integer donationId) throws Exception;
+    public Optional<List<Donation>> removeDonation(Integer donationId) throws Exception;
 
     public Optional<Donation> getDonationById(Integer donationId);
 
     Optional<Service> getServiceById(Integer idService);
+
+    Optional<Information> updateAnnex(Annex annex);
+
+    Optional<Annex> createAvailability(Integer idAnnex, AnnexAvailability annexAvailability) throws Exception;
+
+    Optional<Annex> deleteAvailability(Integer idAnnexAvailability) throws Exception;
+
 }
