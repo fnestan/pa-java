@@ -336,16 +336,25 @@ public class AnnexDetailController {
         fermeture = (TextField) view.getChildrenUnmodifiable().get(4);
         creerHoraire = (Button) view.getChildrenUnmodifiable().get(5);
         creerHoraire.setOnAction(event -> {
-            AnnexAvailability annexAvailability = new AnnexAvailability();
-            annexAvailability.setOpeningTime(Time.valueOf(LocalTime.parse(ouverture.getText())));
-            annexAvailability.setClosingTime(Time.valueOf(LocalTime.parse(fermeture.getText())));
-            annexAvailability.setDayId(i);
-            try {
-                annex = annexService.createAvailability(annex.get().getId(), annexAvailability);
-                stage.close();
-                this.availabilities();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(ouverture.getText().matches("\\d{2}:\\d{2}") &&
+                    fermeture.getText().matches("\\d{2}:\\d{2}")){
+                AnnexAvailability annexAvailability = new AnnexAvailability();
+                annexAvailability.setOpeningTime(Time.valueOf(LocalTime.parse(ouverture.getText())));
+                annexAvailability.setClosingTime(Time.valueOf(LocalTime.parse(fermeture.getText())));
+                annexAvailability.setDayId(i);
+                try {
+                    annex = annexService.createAvailability(annex.get().getId(), annexAvailability);
+                    stage.close();
+                    this.availabilities();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setContentText("Veuiller respecter le format s'il vous plait");
+                alert.showAndWait();
             }
         });
     }
@@ -668,28 +677,28 @@ public class AnnexDetailController {
         serviceName.setOnKeyTyped(keyEvent -> {
             if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
                     && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[0-9]*")) {
+                    && serviceQuantite.getText().matches("[1-9]*")) {
                 create.setDisable(false);
             }
         });
         serviceDescription.setOnKeyTyped(keyEvent -> {
             if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
                     && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[0-9]*")) {
+                    && serviceQuantite.getText().matches("[1-9]*")) {
                 create.setDisable(false);
             }
         });
         serviceQuantite.setOnKeyTyped(keyEvent -> {
             if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
                     && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[0-9]*")) {
+                    && serviceQuantite.getText().matches("[1-9]*")) {
                 create.setDisable(false);
             }
         });
         date.setOnAction(keyEvent -> {
             if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
                     && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[0-9]*")) {
+                    && serviceQuantite.getText().matches("[1-9]*")) {
                 create.setDisable(false);
             }
         });
@@ -749,6 +758,7 @@ public class AnnexDetailController {
 
     private void createDonation() {
         productQuantity.setItems(FXCollections.observableList(mins));
+        productQuantity.getItems().remove(0);
         AtomicReference<List<Product>> productRequests = new AtomicReference<List<Product>>();
         search.setOnKeyTyped(keyEvent -> {
             SearchProduct searchProduct = new SearchProduct();
