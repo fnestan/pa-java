@@ -336,8 +336,8 @@ public class AnnexDetailController {
         fermeture = (TextField) view.getChildrenUnmodifiable().get(4);
         creerHoraire = (Button) view.getChildrenUnmodifiable().get(5);
         creerHoraire.setOnAction(event -> {
-            if(ouverture.getText().matches("\\d{2}:\\d{2}") &&
-                    fermeture.getText().matches("\\d{2}:\\d{2}")){
+            if (ouverture.getText().matches("\\d{2}:\\d{2}") &&
+                    fermeture.getText().matches("\\d{2}:\\d{2}")) {
                 AnnexAvailability annexAvailability = new AnnexAvailability();
                 annexAvailability.setOpeningTime(Time.valueOf(LocalTime.parse(ouverture.getText())));
                 annexAvailability.setClosingTime(Time.valueOf(LocalTime.parse(fermeture.getText())));
@@ -349,8 +349,7 @@ public class AnnexDetailController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setContentText("Veuiller respecter le format s'il vous plait");
@@ -563,27 +562,48 @@ public class AnnexDetailController {
             zipcode.setDisable(false);
             description.setDisable(false);
             update.setOnAction(event1 -> {
-                annex.get().setDescription(description.getText());
-                annex.get().setEmail(email.getText());
-                annex.get().setCity(city.getText());
-                annex.get().setName(name.getText());
-                annex.get().setZipCode(zipcode.getText());
-                annex.get().setStreet(street.getText());
-                annex.get().setPhone(Integer.parseInt(phone.getText()));
-                Optional<Information> information = this.annexService.updateAnnex(annex.get());
-                Alert alert = new Alert(null);
-                alert.setTitle("Création d'un service");
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setContentText(information.get().message);
-                alert.showAndWait();
-                try {
-                    this.genericDetail();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                String regex = "^[-a-z0-9~!$%^&*_=+}{\'?]+(\\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\\.[-a-z0-9_]+)*\\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,5})?$";
+                if (!phone.getText().matches("\\d{10}")) {
+                    Alert alert = new Alert(null);
+                    alert.setTitle("Modification d'une annexe");
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText("veuiller rentrer un telephone valide");
+                    alert.showAndWait();
+                   /* */
+                } else if (!email.getText().matches(regex)){
+                    Alert alert = new Alert(null);
+                    alert.setTitle("Modification d'une annexe");
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText("veuiller rentrer un email valide");
+                    alert.showAndWait();
+                } else if (!zipcode.getText().matches("\\d{10}")){
+                    Alert alert = new Alert(null);
+                    alert.setTitle("Modification d'une annexe");
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText("veuiller rentrer un code postal valide");
+                    alert.showAndWait();
+                }else {
+                    annex.get().setDescription(description.getText());
+                    annex.get().setEmail(email.getText());
+                    annex.get().setCity(city.getText());
+                    annex.get().setName(name.getText());
+                    annex.get().setZipCode(zipcode.getText());
+                    annex.get().setStreet(street.getText());
+                    annex.get().setPhone(Integer.parseInt(phone.getText()));
+                    Optional<Information> information = this.annexService.updateAnnex(annex.get());
+                    Alert alert = new Alert(null);
+                    alert.setTitle("Modification d'une annexe");
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.setContentText(information.get().message);
+                    alert.showAndWait();
+                    try {
+                        this.genericDetail();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-
             });
         });
         service.setOnAction(event -> {
