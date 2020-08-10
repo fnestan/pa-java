@@ -3,10 +3,7 @@ package fr.core.service;
 import fr.core.model.customModel.CustomService;
 import fr.core.model.customModel.Information;
 import fr.core.model.customModel.Manager;
-import fr.core.model.databaseModel.Annex;
-import fr.core.model.databaseModel.AnnexAvailability;
-import fr.core.model.databaseModel.Donation;
-import fr.core.model.databaseModel.Service;
+import fr.core.model.databaseModel.*;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.IRestConnector;
 
@@ -184,6 +181,17 @@ public class AnnexService implements IAnnexService {
 
         }
         return optionalAnnex;
+    }
+
+    @Override
+    public Optional<List<User>> getParticipants(Integer serviceId) throws Exception {
+        Optional<List<User>> optionalResponse = null;
+        try {
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/service/get/users/list/" + serviceId, User[].class)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return optionalResponse;
     }
 }
 

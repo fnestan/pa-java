@@ -14,6 +14,7 @@ public class Need {
     private String nom;
     private String description;
     private int quantite;
+    private int registered;
     private boolean status;
     private boolean actif;
     private int AnnexId;

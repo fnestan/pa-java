@@ -33,7 +33,7 @@ public class ControllerRouter {
                 router.<HomeController>goTo("view/manager/Home", controller -> {
                     try {
                         controller.setRouter(router);
-                        controller.setAnnexService((IAnnexService)iAnnexService.get());
+                        controller.setAnnexService((IAnnexService) iAnnexService.get());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -91,6 +91,16 @@ public class ControllerRouter {
                 break;
             case "GetDonationController":
                 router.<GetDonationController>goTo("view/manager/getDonation", controller -> {
+                    try {
+                        controller.setiAnnexService((IAnnexService) iAnnexService.get());
+                        controller.setRouter(router);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+            case "GetServiceController":
+                router.<GetServiceController>goTo("view/manager/getService", controller -> {
                     try {
                         controller.setiAnnexService((IAnnexService) iAnnexService.get());
                         controller.setRouter(router);

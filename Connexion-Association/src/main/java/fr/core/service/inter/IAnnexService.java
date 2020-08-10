@@ -1,11 +1,8 @@
 package fr.core.service.inter;
 
 import fr.core.model.customModel.Information;
-import fr.core.model.databaseModel.Annex;
+import fr.core.model.databaseModel.*;
 import fr.core.model.customModel.Manager;
-import fr.core.model.databaseModel.AnnexAvailability;
-import fr.core.model.databaseModel.Donation;
-import fr.core.model.databaseModel.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +37,8 @@ public interface IAnnexService {
     Optional<Annex> createAvailability(Integer idAnnex, AnnexAvailability annexAvailability) throws Exception;
 
     Optional<Annex> deleteAvailability(Integer idAnnexAvailability) throws Exception;
+
+    Optional<List<User>> getParticipants(Integer serviceId) throws Exception;
+
 
 }

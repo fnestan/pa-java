@@ -650,9 +650,8 @@ public class AnnexDetailController {
                     read.setOnAction(event -> {
                         Integer idService = service.getId();
                         try {
-                            Optional<Service> service1 = annexService.getServiceById(idService);
-                            ServiceConsultationModal.service = service1;
-                            ServiceConsultationModal.createModal();
+                            GetServiceController.serviceId = idService;
+                            ControllerRouter.geneRouter(router,GetServiceController.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
