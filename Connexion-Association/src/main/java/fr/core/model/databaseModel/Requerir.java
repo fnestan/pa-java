@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Requerir {
     private int id;
     private int quantity;
+    private int quantityLeft;
     private Integer DonationId;
     private Integer ProductId;
     @JsonProperty("Product")

@@ -1,6 +1,7 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.databaseModel.Donation;
+import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IAnnexService;
 import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Optional;
 
 public class GetDonationController {
@@ -47,12 +49,20 @@ public class GetDonationController {
         if (donation.isPresent()) {
             for (int i = 0; i < donation.get().getRequerirs().size(); i++) {
                 ListViewRequerir.getItems().add(new Label(
-                        " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit : " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
+                        " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit demandée: " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()
+                                + " Quantité du produit encore necessaire: " + donation.get().getRequerirs().get(i).getQuantityLeft() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()+ "\n\n"));
             }
         }
     }
 
     public void back(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
         ControllerRouter.geneRouter(router, AnnexDetailController.class);
+    }
+
+    public void donors(ActionEvent event) {
+        Optional<List<User>> users = iAnnexService.getDonors(donationId);
+        for (User u : users.get()) {
+            System.out.println(u.getLastname());
+        }
     }
 }

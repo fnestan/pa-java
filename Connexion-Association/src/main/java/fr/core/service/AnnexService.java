@@ -7,6 +7,7 @@ import fr.core.model.databaseModel.*;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.IRestConnector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -96,7 +97,7 @@ public class AnnexService implements IAnnexService {
 
     @Override
     public Optional<Donation> createDonation(Donation donation) {
-        Optional<Donation> optionalResponse = null;
+        Optional<Donation> optionalResponse = Optional.empty();
         try {
             optionalResponse = Optional.ofNullable(restConnector.post("donation/" + donation.getAnnexId(), donation, Donation.class));
         } catch (Exception e) {
@@ -117,7 +118,7 @@ public class AnnexService implements IAnnexService {
     }
 
     public Optional<List<Donation>> removeDonation(Integer donationId) throws Exception {
-        Optional<List<Donation>> optionalResponse = null;
+        Optional<List<Donation>> optionalResponse = Optional.empty();
         try {
             optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.put("/annex/donation/delete/" + donationId, null, Donation.class)));
         } catch (Exception e) {
@@ -185,7 +186,7 @@ public class AnnexService implements IAnnexService {
 
     @Override
     public Optional<List<User>> getParticipants(Integer serviceId) throws Exception {
-        Optional<List<User>> optionalResponse = null;
+        Optional<List<User>> optionalResponse = Optional.empty();
         try {
             optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/service/get/users/list/" + serviceId, User[].class)));
         } catch (Exception e) {
@@ -193,9 +194,15 @@ public class AnnexService implements IAnnexService {
         }
         return optionalResponse;
     }
+
+    @Override
+    public Optional<List<User>> getDonors(Integer donationId) {
+        Optional<List<User>> optionalResponse = Optional.empty();
+        try {
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/donation/get/users/list/" + donationId, User[].class)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return optionalResponse;
+    }
 }
-
-
-/**
- * /annex/update/:id
- */

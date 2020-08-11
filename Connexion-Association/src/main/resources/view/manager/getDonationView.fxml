@@ -18,7 +18,7 @@
          <content>
             <ListView fx:id="ListViewRequerir" prefHeight="370.0" prefWidth="790.0" />
          </content></ScrollPane>
-      <Button fx:id="back" onAction="#back" contentDisplay="TOP" layoutY="36.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="45.0">
+      <Button fx:id="back" contentDisplay="TOP" layoutY="36.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="45.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -27,5 +27,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button layoutX="319.0" layoutY="533.0" mnemonicParsing="false" onAction="#donors" text="Voir les donateurs" />
     </children>
 </AnchorPane>
