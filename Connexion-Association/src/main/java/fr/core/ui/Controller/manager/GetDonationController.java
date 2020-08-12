@@ -59,10 +59,13 @@ public class GetDonationController {
         ControllerRouter.geneRouter(router, AnnexDetailController.class);
     }
 
-    public void donors(ActionEvent event) {
+    public void donors(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
         Optional<List<User>> users = iAnnexService.getDonors(donationId);
-        for (User u : users.get()) {
-            System.out.println(u.getLastname());
+        if (users.isPresent()) {
+            ParticipateUserController.typeAction = "Donation";
+            ParticipateUserController.title = "Liste des Donateurs";
+            ParticipateUserController.userList = users.get();
+            ControllerRouter.geneRouter(router, ParticipateUserController.class);
         }
     }
 }

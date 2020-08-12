@@ -109,6 +109,16 @@ public class ControllerRouter {
                     }
                 });
                 break;
+
+            case "ParticipateUserController":
+                router.<ParticipateUserController>goTo("view/manager/ParticipateUserAction", controller -> {
+                    try {
+                        controller.setRouter(router);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
         }
     }
 }

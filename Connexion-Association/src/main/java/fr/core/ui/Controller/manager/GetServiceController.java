@@ -63,8 +63,11 @@ public class GetServiceController {
 
     public void participants(ActionEvent event) throws Exception {
         Optional<List<User>> users = iAnnexService.getParticipants(serviceId);
-        for (User u : users.get()) {
-            System.out.println(u.getLastname());
+        if (users.isPresent()) {
+            ParticipateUserController.typeAction = "Service";
+            ParticipateUserController.title = "Liste des bénévoles";
+            ParticipateUserController.userList = users.get();
+            ControllerRouter.geneRouter(router, ParticipateUserController.class);
         }
     }
 }
