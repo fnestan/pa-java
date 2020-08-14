@@ -1,17 +1,29 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.databaseModel.User;
+import fr.core.service.config.ConfigService;
+import fr.core.service.inter.IUserService;
 import fr.core.ui.Controller.MenuBarLoader;
+import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ParticipateUserController {
     public MenuBar menuBar;
@@ -32,7 +44,7 @@ public class ParticipateUserController {
 
     public void setUserListView() {
         labelTitle.setText(title);
-        if(userList.size() > 0){
+        if (userList.size() > 0) {
             for (User user : userList) {
                 HBox hBox = new HBox();
                 hBox.setSpacing(20);
@@ -51,8 +63,26 @@ public class ParticipateUserController {
                     hBox.getChildren().add(gift);
                 }
                 userListView.getItems().add(hBox);
+                contact.setOnAction(event -> {
+                    try {
+                        ContactUserController.user =  user;
+                        ControllerRouter.geneRouter(router,ContactUserController.class);
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                });
             }
-        }else {
+        } else {
             HBox hBox = new HBox();
             hBox.setSpacing(20);
             Label labelEmpty = new Label();

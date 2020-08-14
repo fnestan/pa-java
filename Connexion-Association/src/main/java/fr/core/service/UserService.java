@@ -1,5 +1,6 @@
 package fr.core.service;
 
+import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.User;
 import fr.core.model.customModel.ValidationResponse;
@@ -58,5 +59,16 @@ public class UserService implements IUserService {
             e.getStackTrace();
         }
         return information;
+    }
+
+    @Override
+    public Optional<Information> sendMail(Email email) {
+        Optional<Information> optionalResponse = Optional.empty();
+        try {
+            optionalResponse = Optional.ofNullable(restConnector.post("/annex/sendMail",email, Information.class));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return optionalResponse;
     }
 }

@@ -1,5 +1,6 @@
 package fr.core.service.inter;
 
+import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.*;
 import fr.core.model.customModel.Manager;
@@ -41,4 +42,5 @@ public interface IAnnexService {
     Optional<List<User>> getParticipants(Integer serviceId) throws Exception;
 
     Optional<List<User>> getDonors(Integer donationId);
+
 }

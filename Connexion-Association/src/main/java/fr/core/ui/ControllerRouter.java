@@ -17,6 +17,7 @@ public class ControllerRouter {
     public static <T> void geneRouter(Router router, T controllerN) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
         Optional<Object> iAnnexService = ConfigService.listService.stream().filter(o -> o.toString().contains("AnnexService")).findFirst();
         Optional<Object> ticketService = ConfigService.listService.stream().filter(o -> o.toString().contains("TicketService")).findFirst();
+        Optional<Object> userService = ConfigService.listService.stream().filter(o -> o.toString().contains("UserService")).findFirst();
         String[] controllerNameSplit = controllerN.toString().split(" ");
         controllerNameSplit = controllerNameSplit[1].split("\\.");
         String controllerName = controllerNameSplit[controllerNameSplit.length - 1];
@@ -79,7 +80,6 @@ public class ControllerRouter {
                 });
                 break;
             case "UserController":
-                Optional<Object> userService = ConfigService.listService.stream().filter(o -> o.toString().contains("UserService")).findFirst();
                 router.<UserController>goTo("view/admin/User", controller -> {
                     try {
                         controller.setUserService((IUserService) userService.get());
@@ -114,6 +114,16 @@ public class ControllerRouter {
                 router.<ParticipateUserController>goTo("view/manager/ParticipateUserAction", controller -> {
                     try {
                         controller.setRouter(router);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+            case "ContactUserController":
+                router.<ContactUserController>goTo("view/manager/ContactUser", controller -> {
+                    try {
+                        controller.setRouter(router);
+                        controller.setUserService((IUserService) userService.get());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

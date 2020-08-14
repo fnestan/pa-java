@@ -1,6 +1,7 @@
 package fr.core.service;
 
 import fr.core.model.customModel.CustomService;
+import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
 import fr.core.model.customModel.Manager;
 import fr.core.model.databaseModel.*;
