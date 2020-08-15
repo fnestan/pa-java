@@ -38,4 +38,6 @@ public class User {
     private List<Annex> annexes;
     @JsonProperty("Role")
     private fr.core.model.databaseModel.Role Role;
+    @JsonProperty("isReported")
+    private boolean isReported;
 }

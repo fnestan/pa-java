@@ -19,4 +19,6 @@ public interface IUserService {
 
     Optional<Information> sendMail(Email email);
 
+    Optional<Information> reportUser(Integer userId, Integer AnnexId);
+
 }

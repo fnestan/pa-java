@@ -1,26 +1,17 @@
 package fr.core.ui.Controller.manager;
 
+import fr.core.model.customModel.Information;
 import fr.core.model.databaseModel.User;
-import fr.core.service.config.ConfigService;
 import fr.core.service.inter.IUserService;
 import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,13 +24,18 @@ public class ParticipateUserController {
     static String typeAction;
     static List<User> userList = new ArrayList<>();
     private Router router;
+    private IUserService iUserService;
 
 
     public void setRouter(Router router) throws Exception {
         this.router = router;
         MenuBarLoader m = new MenuBarLoader();
         m.LoadMenuBar(menuBar, router);
-        setUserListView();
+    }
+
+    public void setiUserService(IUserService iUserService) {
+        this.iUserService = iUserService;
+        this.setUserListView();
     }
 
     public void setUserListView() {
@@ -57,7 +53,9 @@ public class ParticipateUserController {
                 hBox.getChildren().add(labelName);
                 hBox.getChildren().add(labelEmail);
                 hBox.getChildren().add(contact);
-                hBox.getChildren().add(report);
+                if (!user.isReported()){
+                    hBox.getChildren().add(report);
+                }
                 if (typeAction.equals("Donation")) {
                     Button gift = new Button("Don");
                     hBox.getChildren().add(gift);
@@ -65,8 +63,8 @@ public class ParticipateUserController {
                 userListView.getItems().add(hBox);
                 contact.setOnAction(event -> {
                     try {
-                        ContactUserController.user =  user;
-                        ControllerRouter.geneRouter(router,ContactUserController.class);
+                        ContactUserController.user = user;
+                        ControllerRouter.geneRouter(router, ContactUserController.class);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
@@ -81,12 +79,22 @@ public class ParticipateUserController {
                         classNotFoundException.printStackTrace();
                     }
                 });
+                report.setOnAction(event -> {
+                    Optional<Information> information = iUserService.reportUser(user.getId(), AnnexDetailController.idAnnex);
+                    if (information.isPresent()) {
+                        report.setVisible(false);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Bannir un utilisateur");
+                        alert.setContentText(information.get().message);
+                        alert.showAndWait();
+                    }
+                });
             }
         } else {
             HBox hBox = new HBox();
             hBox.setSpacing(20);
             Label labelEmpty = new Label();
-            labelEmpty.setText("Il n'y a aucun utilisateur qui participe a cette action");
+            labelEmpty.setText("Il n'y a aucun utilisateur qui participe à cette action");
             hBox.getChildren().add(labelEmpty);
             userListView.getItems().add(hBox);
         }
@@ -94,6 +102,11 @@ public class ParticipateUserController {
     }
 
 
-    public void back(ActionEvent event) {
+    public void back(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
+        if (typeAction.equals("Donation")) {
+            ControllerRouter.geneRouter(router, GetDonationController.class);
+        } else {
+            ControllerRouter.geneRouter(router, GetServiceController.class);
+        }
     }
 }

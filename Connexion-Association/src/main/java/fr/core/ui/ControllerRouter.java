@@ -114,6 +114,7 @@ public class ControllerRouter {
                 router.<ParticipateUserController>goTo("view/manager/ParticipateUserAction", controller -> {
                     try {
                         controller.setRouter(router);
+                        controller.setiUserService((IUserService) userService.get());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

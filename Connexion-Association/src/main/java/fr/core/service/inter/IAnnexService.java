@@ -42,5 +42,4 @@ public interface IAnnexService {
     Optional<List<User>> getParticipants(Integer serviceId) throws Exception;
 
     Optional<List<User>> getDonors(Integer donationId);
-
 }

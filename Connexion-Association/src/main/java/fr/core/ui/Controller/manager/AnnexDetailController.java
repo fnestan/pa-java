@@ -574,13 +574,13 @@ public class AnnexDetailController {
                     Alert alert = new Alert(null);
                     alert.setTitle("Modification d'une annexe");
                     alert.setAlertType(Alert.AlertType.ERROR);
-                    alert.setContentText("veuiller rentrer un email valide");
+                    alert.setContentText("Veuillez rentrer un email valide");
                     alert.showAndWait();
-                } else if (!zipcode.getText().matches("\\d{10}")){
+                } else if (!zipcode.getText().matches("\\d{5}")){
                     Alert alert = new Alert(null);
                     alert.setTitle("Modification d'une annexe");
                     alert.setAlertType(Alert.AlertType.ERROR);
-                    alert.setContentText("veuiller rentrer un code postal valide");
+                    alert.setContentText("Veuillez rentrer un code postal valide");
                     alert.showAndWait();
                 }else {
                     annex.get().setDescription(description.getText());

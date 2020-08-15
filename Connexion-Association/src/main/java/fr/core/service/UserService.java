@@ -65,10 +65,27 @@ public class UserService implements IUserService {
     public Optional<Information> sendMail(Email email) {
         Optional<Information> optionalResponse = Optional.empty();
         try {
-            optionalResponse = Optional.ofNullable(restConnector.post("/annex/sendMail",email, Information.class));
+            optionalResponse = Optional.ofNullable(restConnector.post("/annex/sendMail", email, Information.class));
         } catch (Exception e) {
             System.out.println(e);
         }
         return optionalResponse;
+    }
+
+    /**
+     * /user/report/:idUser/:idAnnex
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Optional<Information> reportUser(Integer userId, Integer annexId) {
+        Optional<Information> information = Optional.empty();
+        try {
+            information = Optional.ofNullable(restConnector.get("/user/report/" + userId + "/" + annexId, Information.class));
+        } catch (Exception e) {
+
+        }
+        return information;
     }
 }
