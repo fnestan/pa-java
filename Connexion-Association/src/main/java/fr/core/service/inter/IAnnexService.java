@@ -1,9 +1,8 @@
 package fr.core.service.inter;
 
-import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
-import fr.core.model.databaseModel.*;
 import fr.core.model.customModel.Manager;
+import fr.core.model.databaseModel.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,4 +41,10 @@ public interface IAnnexService {
     Optional<List<User>> getParticipants(Integer serviceId) throws Exception;
 
     Optional<List<User>> getDonors(Integer donationId);
+
+    Optional<List<UserDonation>> getDonation(Integer donationId, Integer userId);
+
+    Optional<Information> setGive(Integer userDonationId);
+
+
 }

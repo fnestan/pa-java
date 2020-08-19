@@ -1,14 +1,12 @@
 package fr.core.service;
 
 import fr.core.model.customModel.CustomService;
-import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
 import fr.core.model.customModel.Manager;
 import fr.core.model.databaseModel.*;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.IRestConnector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -201,6 +199,28 @@ public class AnnexService implements IAnnexService {
         Optional<List<User>> optionalResponse = Optional.empty();
         try {
             optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/donation/get/users/list/" + donationId, User[].class)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return optionalResponse;
+    }
+
+    @Override
+    public Optional<List<UserDonation>> getDonation(Integer donationId, Integer userId) {
+        Optional<List<UserDonation>> optionalResponse = Optional.empty();
+        try {
+            optionalResponse = Optional.ofNullable(Arrays.asList(restConnector.get("/donation/get/" + donationId + "/user/don/" + userId, UserDonation[].class)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return optionalResponse;
+    }
+
+    @Override
+    public Optional<Information> setGive(Integer userDonationId) {
+        Optional<Information> optionalResponse = Optional.empty();
+        try {
+            optionalResponse = Optional.ofNullable(restConnector.get("/donation/userDonation/" + userDonationId + "/setgive", Information.class));
         } catch (Exception e) {
             System.out.println(e);
         }

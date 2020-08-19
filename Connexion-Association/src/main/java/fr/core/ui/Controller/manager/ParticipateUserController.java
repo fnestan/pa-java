@@ -1,6 +1,7 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Information;
+import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IUserService;
 import fr.core.ui.Controller.MenuBarLoader;
@@ -21,6 +22,7 @@ public class ParticipateUserController {
     public Label labelTitle;
     public ListView userListView;
     static String title;
+    static Donation donation;
     static String typeAction;
     static List<User> userList = new ArrayList<>();
     private Router router;
@@ -53,12 +55,31 @@ public class ParticipateUserController {
                 hBox.getChildren().add(labelName);
                 hBox.getChildren().add(labelEmail);
                 hBox.getChildren().add(contact);
-                if (!user.isReported()){
+                if (!user.isReported()) {
                     hBox.getChildren().add(report);
                 }
                 if (typeAction.equals("Donation")) {
                     Button gift = new Button("Don");
                     hBox.getChildren().add(gift);
+                    gift.setOnAction(event -> {
+                        ListUserDonationController.user = user;
+                        ListUserDonationController.donation = donation;
+                        try {
+                            ControllerRouter.geneRouter(router, ListUserDonationController.class);
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                        }
+                    });
                 }
                 userListView.getItems().add(hBox);
                 contact.setOnAction(event -> {

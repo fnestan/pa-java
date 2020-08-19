@@ -130,6 +130,16 @@ public class ControllerRouter {
                     }
                 });
                 break;
+            case "ListUserDonationController":
+                router.<ListUserDonationController>goTo("view/manager/ListDonationUser", controller -> {
+                    try {
+                        controller.setRouter(router);
+                        controller.setiAnnexService((IAnnexService) iAnnexService.get());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
         }
     }
 }

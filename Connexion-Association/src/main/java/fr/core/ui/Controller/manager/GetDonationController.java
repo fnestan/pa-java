@@ -26,6 +26,7 @@ public class GetDonationController {
     private Router router;
     public static Integer donationId;
     private IAnnexService iAnnexService;
+    private Donation donation;
 
     @FXML
     public void initialize() throws Exception {
@@ -47,10 +48,11 @@ public class GetDonationController {
         labelDonationName.setText(donation.get().getNom());
         labelDonationDescription.setText(donation.get().getDescription());
         if (donation.isPresent()) {
+            this.donation = donation.get();
             for (int i = 0; i < donation.get().getRequerirs().size(); i++) {
                 ListViewRequerir.getItems().add(new Label(
                         " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit demandée: " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()
-                                + " Quantité du produit encore necessaire: " + donation.get().getRequerirs().get(i).getQuantityLeft() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()+ "\n\n"));
+                                + " Quantité du produit encore necessaire: " + donation.get().getRequerirs().get(i).getQuantityLeft() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
             }
         }
     }
@@ -65,6 +67,7 @@ public class GetDonationController {
             ParticipateUserController.typeAction = "Donation";
             ParticipateUserController.title = "Liste des Donateurs";
             ParticipateUserController.userList = users.get();
+            ParticipateUserController.donation = this.donation;
             ControllerRouter.geneRouter(router, ParticipateUserController.class);
         }
     }
