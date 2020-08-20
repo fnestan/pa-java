@@ -5,6 +5,7 @@ import fr.core.model.databaseModel.Stock;
 import fr.core.service.inter.IStockService;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -96,7 +97,7 @@ public class AnnexStockController {
                     stage.close();
                     try {
                         AnnexStockController.AnnexId = AnnexId;
-                        ControllerRouter.geneRouter(router,AnnexStockController.class);
+                        ControllerRouter.geneRouter(router, AnnexStockController.class);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
@@ -119,5 +120,9 @@ public class AnnexStockController {
                 alert.showAndWait();
             }
         });
+    }
+
+    public void back(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
+        ControllerRouter.geneRouter(router, AnnexDetailController.class);
     }
 }

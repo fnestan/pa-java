@@ -37,6 +37,11 @@ public class MenuBarLoader {
 
 
     public MenuBar LoadMenuBar(MenuBar menuBar, Router router) throws Exception {
+        boolean fileExist = Files.exists(Path.of(basePath + "/plugins.csv"));
+        if (!fileExist) {
+           Files.createDirectory(Path.of(basePath));
+           Files.createFile(Path.of(basePath + "/plugins.csv"));
+        }
         BufferedReader csvReader = new BufferedReader(new FileReader(basePath + "/plugins.csv"));
         String row = null;
         Stage stage = new Stage();

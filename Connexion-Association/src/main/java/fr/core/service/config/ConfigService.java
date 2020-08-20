@@ -1,20 +1,20 @@
 package fr.core.service.config;
 
 import fr.core.IMapper;
-import fr.core.service.AnnexService;
+import fr.core.service.RestConnector;
 import fr.core.service.inter.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Scanner;
-import java.util.jar.JarFile;
 
 public class ConfigService {
 
@@ -36,15 +36,14 @@ public class ConfigService {
         Class mapperClass = Class.forName(mapper);
         IMapper iMapper = (IMapper) mapperClass.getConstructor().newInstance();
 
-
-        String rest = scanner.next();
-        String auth = scanner.next();
         String annex = scanner.next();
-        String type = scanner.next();
+        String auth = scanner.next();
         String product = scanner.next();
-        String user = scanner.next();
-        String ticket = scanner.next();
+        String rest = scanner.next();
         String stock = scanner.next();
+        String ticket = scanner.next();
+        String type = scanner.next();
+        String user = scanner.next();
 
 
         Class restClass = Class.forName(rest);
@@ -98,23 +97,23 @@ public class ConfigService {
     }
 
     private File createFile() throws IOException {
+        Files.createDirectory(Path.of(path + "/ioc"));
+        File file = new File(path + "/ioc/config.txt");
+        FileWriter csvWriter = new FileWriter(path + "/ioc/config.txt", true);
+        csvWriter.append("fr.core.Mapper \n");
         String targetPackage = "fr.core.service";
         String targetPackagePath = targetPackage.replace('.', '/');
-        String targetPath = "/"+targetPackagePath;
-        URL resourceURL = AnnexService.class.getResource(targetPath);
+        String targetPath = "/" + targetPackagePath;
+        URL resourceURL = RestConnector.class.getResource(targetPath);
         String packageRealPath = resourceURL.getFile();
         File packageFile = new File(packageRealPath);
         String[] lst = packageFile.list();
-        for (String s : lst){
-            if (s.contains(".class")){
-                System.out.println(s);
+        for (String s : lst) {
+            if (s.contains(".class") && !s.contains("$")) {
+                s = s.split(".class")[0];
+                csvWriter.append(targetPackage + "." + s + "\n");
             }
         }
-
-
-
-        File file = new File(path + "/ioc/config.txt");
-        FileWriter csvWriter = new FileWriter(path + "/ioc/config.txt", true);
         csvWriter.close();
         return file;
     }
