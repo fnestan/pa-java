@@ -40,7 +40,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class AnnexDetailController {
 
-
+    @FXML
+    Button stock;
     private Router router;
 
     public static Integer idAnnex;
@@ -235,6 +236,24 @@ public class AnnexDetailController {
                 this.availabilities();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        });
+        this.stock.setOnAction(event -> {
+            try {
+                AnnexStockController.AnnexId = annex.get().getId();
+                ControllerRouter.geneRouter(router,AnnexStockController.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
             }
         });
     }

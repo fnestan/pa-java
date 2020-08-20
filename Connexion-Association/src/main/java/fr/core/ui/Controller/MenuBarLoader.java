@@ -7,6 +7,7 @@ import fr.core.plugin.run.RunPlugin;
 import fr.core.service.config.ConfigService;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.ITicketService;
+import fr.core.ui.Controller.manager.AnnexStockController;
 import fr.core.ui.Controller.manager.GetTicketController;
 import fr.core.ui.Controller.manager.HomeController;
 import fr.core.ui.Controller.manager.TicketController;
@@ -32,7 +33,7 @@ public class MenuBarLoader {
     RunPlugin runPlugin = new RunPlugin();
     List<Login> users = new ArrayList<>();
     private String basePath = System.getProperty("user.home") + "/pluginsLoads";
-    public static Object  currentData;
+    public static Object currentData;
 
 
     public MenuBar LoadMenuBar(MenuBar menuBar, Router router) throws Exception {
@@ -169,6 +170,7 @@ public class MenuBarLoader {
 
             });
         });
+
         addPlugin.setOnAction(ActionEvent -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
@@ -194,7 +196,7 @@ public class MenuBarLoader {
             String n = runPlugin.load(file.getAbsolutePath());
             File f = file;
             File fif = new File(basePath);
-            FileWriter csvWriter = new FileWriter(basePath+"/plugins.csv", true);
+            FileWriter csvWriter = new FileWriter(basePath + "/plugins.csv", true);
             csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + n + "\n");
             csvWriter.close();
             Files.copy(Path.of(f.getAbsolutePath()), Path.of(fif.getAbsolutePath() + "/" + f.getName()));

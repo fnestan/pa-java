@@ -2,15 +2,12 @@ package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Email;
 import fr.core.model.customModel.Information;
-import fr.core.model.databaseModel.Product;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IUserService;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +27,7 @@ public class ContactUserController {
     public void setUserService(IUserService userService) {
         this.userService = userService;
         message.setWrapText(true);
-        contact.setText("Contacter" + user.getFirstname() + " " + user.getLastname());
+        contact.setText("Contacter  " + user.getFirstname() + " " + user.getLastname());
     }
 
     public void cancel(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {

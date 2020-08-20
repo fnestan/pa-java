@@ -17,6 +17,7 @@ public class ControllerRouter {
     public static <T> void geneRouter(Router router, T controllerN) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
         Optional<Object> iAnnexService = ConfigService.listService.stream().filter(o -> o.toString().contains("AnnexService")).findFirst();
         Optional<Object> ticketService = ConfigService.listService.stream().filter(o -> o.toString().contains("TicketService")).findFirst();
+        Optional<Object> stockService = ConfigService.listService.stream().filter(o -> o.toString().contains("StockService")).findFirst();
         Optional<Object> userService = ConfigService.listService.stream().filter(o -> o.toString().contains("UserService")).findFirst();
         String[] controllerNameSplit = controllerN.toString().split(" ");
         controllerNameSplit = controllerNameSplit[1].split("\\.");
@@ -135,6 +136,17 @@ public class ControllerRouter {
                     try {
                         controller.setRouter(router);
                         controller.setiAnnexService((IAnnexService) iAnnexService.get());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+
+            case "AnnexStockController":
+                router.<AnnexStockController>goTo("view/manager/AnnexStock", controller -> {
+                    try {
+                        controller.setRouter(router);
+                        controller.setiStockService((IStockService) stockService.get());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

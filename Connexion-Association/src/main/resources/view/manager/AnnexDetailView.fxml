@@ -10,8 +10,9 @@
       <BorderPane fx:id="border" layoutY="23.0" prefHeight="541.0" prefWidth="800.0" />
       <MenuBar fx:id="menuBar" layoutY="10.0">
       </MenuBar>
-      <Button fx:id="detail" layoutX="267.0" layoutY="565.0" mnemonicParsing="false" text="Détails" />
-      <Button fx:id="gerant" layoutX="348.0" layoutY="565.0" mnemonicParsing="false" text="Gérants" />
+      <Button fx:id="detail" layoutX="270.0" layoutY="565.0" mnemonicParsing="false" text="Détails" />
+      <Button fx:id="gerant" layoutX="350.0" layoutY="565.0" mnemonicParsing="false" text="Gérants" />
       <Button fx:id="horaire" layoutX="440.0" layoutY="565.0" mnemonicParsing="false" text="Horaires" />
+      <Button fx:id="stock" layoutX="530.0" layoutY="565.0" mnemonicParsing="false" text="Stock" />
    </children>
 </AnchorPane>
