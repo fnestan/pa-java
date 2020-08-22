@@ -6,10 +6,8 @@ import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -60,18 +58,21 @@ public class HomeController {
                 this.list.getItems().add(text);
             } else {
                 for (Annex annex : annexes.get()) {
-                    Pane p = new Pane();
-                    TextFlow text = new TextFlow(new Text(annex.getName() + "    " + annex.getEmail() +
-                            "   " + annex.getStreet() + "   " + annex.getZipCode() + "   "
-                            + annex.getCity() + "   " + annex.getPhone()));
-                    p.getChildren().add(text);
-                    text.setId(String.valueOf(annex.getId()));
-                    this.list.getItems().add(text);
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(30);
+                    hBox.getChildren().add(new Label("Nom de l'annexe : " +annex.getName()));
+                    hBox.getChildren().add(new Label("Couriel de l'annexe : " +annex.getEmail()));
+                    hBox.getChildren().add(new Label("Adresse de l'annexe : " +annex.getStreet() + " " + annex.getZipCode() + "   "
+                            + annex.getCity()));
+                    hBox.getChildren().add(new Label("Téléphone de l'annexe : " +annex.getPhone()));
+                    hBox.setId(String.valueOf(annex.getId()));
+                    this.list.getItems().add(hBox);
+
                 }
             }
         }
         list.setOnMouseClicked(Event -> {
-            TextFlow t = (TextFlow) list.getSelectionModel().getSelectedItem();
+            HBox t = (HBox) list.getSelectionModel().getSelectedItem();
             if (t != null) {
                 AnnexDetailController.idAnnex = Integer.parseInt(t.getId());
                 try {

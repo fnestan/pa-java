@@ -23,6 +23,8 @@ public class Router {
     public <T> void goTo(final String viewName, final Consumer<T> controllerConsumer) {
         final var view = loadView(viewName, controllerConsumer);
         stage.setScene(new Scene(view));
+        stage.setMaximized(true);
+
     }
 
     private <T> Parent loadView(final String viewName, final Consumer<T> controllerConsumer) {
