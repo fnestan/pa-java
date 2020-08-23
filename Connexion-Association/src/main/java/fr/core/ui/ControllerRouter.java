@@ -22,7 +22,6 @@ public class ControllerRouter {
         String[] controllerNameSplit = controllerN.toString().split(" ");
         controllerNameSplit = controllerNameSplit[1].split("\\.");
         String controllerName = controllerNameSplit[controllerNameSplit.length - 1];
-        System.out.printf(controllerName);
         switch (controllerName) {
             case "LoginController":
                 Optional<Object> iAuthService = ConfigService.listService.stream().filter(o -> o.toString().contains("AuthService")).findFirst();

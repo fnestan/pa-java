@@ -1,8 +1,10 @@
 package fr.core.ui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,14 +19,19 @@ public class Router {
     }
 
     public void goTo(final String viewName) {
-        goTo(viewName, __ -> {});
+        goTo(viewName, __ -> {
+        });
     }
 
     public <T> void goTo(final String viewName, final Consumer<T> controllerConsumer) {
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         final var view = loadView(viewName, controllerConsumer);
-        stage.setScene(new Scene(view));
-        stage.setMaximized(true);
+        Scene scene = new Scene(view,screenSize.getWidth(), screenSize.getHeight());
+        stage.setScene(scene);
+        if(!stage.isMaximized()){
+            stage.setMaximized(true);
 
+        }
     }
 
     private <T> Parent loadView(final String viewName, final Consumer<T> controllerConsumer) {
@@ -33,7 +40,6 @@ public class Router {
             final var fxmlLoader = new FXMLLoader(this.getClass().getResource(viewPath));
             final Parent view = fxmlLoader.load();
             controllerConsumer.accept(fxmlLoader.getController());
-
             return view;
         } catch (IOException e) {
             throw new IllegalStateException(String.format("Unable to load view: %s", viewPath), e);

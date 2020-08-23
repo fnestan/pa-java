@@ -2,17 +2,34 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane style="-fx-background-color: azure" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.manager.AnnexDetailController">
-   <children>
-      <BorderPane fx:id="border" layoutY="23.0" prefHeight="541.0" prefWidth="800.0" />
-      <MenuBar fx:id="menuBar" layoutY="10.0">
-      </MenuBar>
-      <Button fx:id="detail" layoutX="270.0" layoutY="565.0" mnemonicParsing="false" text="Détails" />
-      <Button fx:id="gerant" layoutX="350.0" layoutY="565.0" mnemonicParsing="false" text="Gérants" />
-      <Button fx:id="horaire" layoutX="440.0" layoutY="565.0" mnemonicParsing="false" text="Horaires" />
-      <Button fx:id="stock" layoutX="530.0" layoutY="565.0" mnemonicParsing="false" text="Stock" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: azure" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.manager.AnnexDetailController">
+    <children>
+        <MenuBar fx:id="menuBar" layoutY="10.0">
+        </MenuBar>
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="510.0" spacing="20" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="50.0">
+            <children>
+                <ImageView fitHeight="208.0" fitWidth="142.0" layoutX="658.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../images/connexion.png" />
+                    </image>
+                </ImageView>
+                <BorderPane fx:id="border" prefHeight="205.0" prefWidth="0.0" />
+                <HBox alignment="CENTER" spacing="30.0">
+                    <children>
+                        <Button fx:id="detail" layoutX="270.0" layoutY="565.0" mnemonicParsing="false" text="Détails" />
+                        <Button fx:id="gerant" layoutX="350.0" layoutY="565.0" mnemonicParsing="false" text="Gérants" />
+                        <Button fx:id="horaire" layoutX="440.0" layoutY="565.0" mnemonicParsing="false" text="Horaires" />
+                        <Button fx:id="stock" layoutX="530.0" layoutY="565.0" mnemonicParsing="false" text="Stock" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
