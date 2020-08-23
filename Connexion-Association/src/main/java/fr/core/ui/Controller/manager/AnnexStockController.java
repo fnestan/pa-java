@@ -35,6 +35,7 @@ public class AnnexStockController {
     }
 
     public void getStock() {
+        title.setText("Consultation du stock de l'annexe");
         Optional<List<Stock>> stocks = iStockService.getStock(AnnexId);
         if (stocks.isPresent()) {
             if (stocks.get().size() == 0) {

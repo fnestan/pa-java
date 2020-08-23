@@ -21,7 +21,7 @@ public class Annex {
     String zipCode;
     String description;
     String street;
-    int phone;
+    String phone;
     String city;
     boolean active;
     boolean valid;

@@ -566,7 +566,7 @@ public class AnnexDetailController {
         donation = (Button) textField.get(8);
         service = (Button) textField.get(9);
         name.setText(annex.get().getName());
-        phone.setText(String.valueOf(annex.get().getPhone()));
+        phone.setText(annex.get().getPhone());
         email.setText(annex.get().getEmail());
         street.setText(annex.get().getStreet());
         city.setText(annex.get().getCity());
@@ -608,7 +608,7 @@ public class AnnexDetailController {
                     annex.get().setName(name.getText());
                     annex.get().setZipCode(zipcode.getText());
                     annex.get().setStreet(street.getText());
-                    annex.get().setPhone(Integer.parseInt(phone.getText()));
+                    annex.get().setPhone(phone.getText());
                     Optional<Information> information = this.annexService.updateAnnex(annex.get());
                     Alert alert = new Alert(null);
                     alert.setTitle("Modification d'une annexe");
@@ -900,7 +900,7 @@ public class AnnexDetailController {
         border.setCenter(splitPane);
         Pane p = (Pane) border.getChildren().get(0);
         Optional<List<Donation>> optionalDonation = annexService.listDonations(idAnnex);
-        ScrollPane scrollPane = (ScrollPane) p.getChildren().get(0);
+        this.donationlistVbox = (VBox) p.getChildren().get(0);
         Button newDonation = (Button) p.getChildren().get(1);
         newDonation.setOnAction(event -> {
             try {
@@ -909,7 +909,6 @@ public class AnnexDetailController {
                 e.printStackTrace();
             }
         });
-        this.donationlistVbox = (VBox) scrollPane.getContent();
         if (optionalDonation.isPresent()) {
             if (optionalDonation.get().size() == 0) {
                 HBox hBox = new HBox();

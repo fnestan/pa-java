@@ -5,11 +5,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="paneAnnex" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneAnnex" prefHeight="580.0" prefWidth="800.0" style="-fx-background-color: DARKCYAN;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <TextField fx:id="name" layoutX="60.0" layoutY="150.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
         <TextField fx:id="phone" layoutX="60.0" layoutY="185.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
-        <TextField fx:id="email" layoutX="60.0" layoutY="215.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
+        <TextField fx:id="email" layoutX="60.0" layoutY="214.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
         <TextField fx:id="street" layoutX="60.0" layoutY="255.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
         <TextField fx:id="city" layoutX="60.0" layoutY="341.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
         <TextField fx:id="zipcode" layoutX="60.0" layoutY="300.0" prefHeight="25.0" prefWidth="287.0" text="Label" />
