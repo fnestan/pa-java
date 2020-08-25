@@ -19,10 +19,10 @@ import java.util.Optional;
 public class GetDonationController {
     public MenuBar menuBar;
     public Label labelDonationName;
-    public Label labelDonationDescription;
     public Button back;
     public ListView ListViewRequerir;
     public ScrollPane scroll;
+    public TextArea description;
     private Router router;
     public static Integer donationId;
     private IAnnexService iAnnexService;
@@ -46,7 +46,8 @@ public class GetDonationController {
     private void getDonation() throws IOException {
         Optional<Donation> donation = this.iAnnexService.getDonationById(donationId);
         labelDonationName.setText(donation.get().getNom());
-        labelDonationDescription.setText(donation.get().getDescription());
+        description.setWrapText(true);
+        description.setText(donation.get().getDescription());
         if (donation.isPresent()) {
             this.donation = donation.get();
             for (int i = 0; i < donation.get().getRequerirs().size(); i++) {

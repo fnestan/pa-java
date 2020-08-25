@@ -30,6 +30,6 @@
         <Button fx:id="addProduct" layoutX="532.0" layoutY="366.0" mnemonicParsing="false" text="Ajouter" />
       <TextField fx:id="search" layoutX="276.0" layoutY="336.0" />
       <Button fx:id="newPrd" layoutX="665.0" layoutY="366.0" mnemonicParsing="false" text="Créer un produit" />
-      <Button layoutX="424.0" layoutY="484.0" mnemonicParsing="false" onAction="#cancel" text="Annuler" />
+      <Button layoutX="424.0" layoutY="484.0" mnemonicParsing="false" text="Annuler" />
     </children>
 </Pane>
