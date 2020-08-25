@@ -5,7 +5,6 @@ import fr.core.ui.Controller.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 

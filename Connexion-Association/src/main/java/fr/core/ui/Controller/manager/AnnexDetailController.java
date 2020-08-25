@@ -731,68 +731,54 @@ public class AnnexDetailController {
         });
         hour.setItems(FXCollections.observableList(hours));
         min.setItems(FXCollections.observableList(mins));
-        create.setDisable(true);
-        serviceName.setOnKeyTyped(keyEvent -> {
-            if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
-                    && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[1-9]*")) {
-                create.setDisable(false);
-            }
-        });
-        serviceDescription.setOnKeyTyped(keyEvent -> {
-            if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
-                    && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[1-9]*")) {
-                create.setDisable(false);
-            }
-        });
-        serviceQuantite.setOnKeyTyped(keyEvent -> {
-            if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
-                    && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[1-9]*")) {
-                create.setDisable(false);
-            }
-        });
-        date.setOnAction(keyEvent -> {
-            if (!serviceName.getText().equals("") && !serviceDescription.getText().equals("")
-                    && date.getValue() != null && !serviceQuantite.getText().equals("")
-                    && serviceQuantite.getText().matches("[1-9]*")) {
-                create.setDisable(false);
-            }
-        });
         create.setOnAction(event -> {
-            LocalDateTime localDateTime;
-            LocalDate local = date.getValue();
-            if (hour.getSelectionModel().getSelectedItem() == null || min.getSelectionModel().getSelectedItem() == null) {
-                LocalTime localTime = LocalTime.of(2, 0);
-                localDateTime = LocalDateTime.of(local, localTime);
-            } else {
-                int h = Integer.parseInt(hour.getSelectionModel().getSelectedItem().toString());
-                int m = Integer.parseInt(min.getSelectionModel().getSelectedItem().toString());
-                LocalTime localTime = LocalTime.of(h + 2, m);
-                localDateTime = LocalDateTime.of(local, localTime);
-
-            }
-            Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            Service service = new Service();
-            service.setAnnexId(annex.get().getId());
-            service.setDate_service(date);
-            service.setDescription(serviceDescription.getText());
-            service.setNom(serviceName.getText());
-            service.setQuantite(Integer.parseInt(serviceQuantite.getText()));
-            try {
-                Optional<Service> s = annexService.createService(service);
-                Alert alert = new Alert(null);
+            if (serviceName.getText().equals("") || serviceDescription.getText().equals("")
+                    || date.getValue() == null || serviceQuantite.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Création d'un service");
-                if (s.isPresent()) {
-                    alert.setAlertType(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Votre service " + s.get().getNom() + " a bien été créé");
-                    alert.showAndWait();
-                    ControllerRouter.geneRouter(router, AnnexDetailController.class);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                alert.setContentText("Vous devez remplir le champs du formulaire");
+                alert.showAndWait();
+            } else if (!serviceQuantite.getText().matches("[0-9]*")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Création d'un service");
+                alert.setContentText("La quantité doit etre un nombre");
+                alert.showAndWait();
             }
+            else {
+                LocalDateTime localDateTime;
+                LocalDate local = date.getValue();
+                if (hour.getSelectionModel().getSelectedItem() == null || min.getSelectionModel().getSelectedItem() == null) {
+                    LocalTime localTime = LocalTime.of(2, 0);
+                    localDateTime = LocalDateTime.of(local, localTime);
+                } else {
+                    int h = Integer.parseInt(hour.getSelectionModel().getSelectedItem().toString());
+                    int m = Integer.parseInt(min.getSelectionModel().getSelectedItem().toString());
+                    LocalTime localTime = LocalTime.of(h + 2, m);
+                    localDateTime = LocalDateTime.of(local, localTime);
+
+                }
+                Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                Service service = new Service();
+                service.setAnnexId(annex.get().getId());
+                service.setDate_service(date);
+                service.setDescription(serviceDescription.getText());
+                service.setNom(serviceName.getText());
+                service.setQuantite(Integer.parseInt(serviceQuantite.getText()));
+                try {
+                    Optional<Service> s = annexService.createService(service);
+                    Alert alert = new Alert(null);
+                    alert.setTitle("Création d'un service");
+                    if (s.isPresent()) {
+                        alert.setAlertType(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Votre service " + s.get().getNom() + " a bien été créé");
+                        alert.showAndWait();
+                        ControllerRouter.geneRouter(router, AnnexDetailController.class);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
     }
 

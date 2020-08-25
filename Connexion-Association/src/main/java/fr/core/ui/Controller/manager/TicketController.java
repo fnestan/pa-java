@@ -8,8 +8,11 @@ import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -22,7 +25,7 @@ import java.util.Optional;
 public class TicketController {
     public MenuBar menuBar;
     public ScrollPane scrolTickets;
-    public ListView list;
+    public VBox vboxList;
     private Router router;
     ITicketService ticketService;
 
@@ -53,14 +56,40 @@ public class TicketController {
             if (tickets.get().size() == 0) {
                 HBox hBox = new HBox();
                 hBox.getChildren().add(new Label("Vous n'avez aucun tickets de disponible"));
-                this.list.getItems().add(hBox);
+                this.vboxList.getChildren().add(hBox);
             } else {
+                int raw = 0;
+                ScrollPane scrollPane = new ScrollPane();
+                GridPane gridPane = new GridPane();
+                gridPane.setPadding(new Insets(20));
+                gridPane.setHgap(25);
+                gridPane.setVgap(15);
+                scrollPane.setContent(gridPane);
                 for (Ticket ticket : tickets.get()) {
-                    HBox hBox = new HBox();
-                    hBox.setSpacing(20.0);
                     TextFlow text = new TextFlow(new Text(ticket.getNumber() + " - " + ticket.getLabel()));
-                    hBox.getChildren().add(text);
+                    Button read = new Button("Voir");
                     Button close = new Button("Clore");
+                    gridPane.add(text, 0, raw);
+                    gridPane.add(read, 1, raw);
+                    gridPane.add(close, 2, raw);
+                    read.setOnAction(event -> {
+                        GetTicketController.ticketId = ticket.getId();
+                        try {
+                            ControllerRouter.geneRouter(router, GetTicketController.class);
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                        }
+                    });
                     close.setOnAction(event -> {
                         var response = ticketService.closeTicket(ticket.getId());
                         try {
@@ -79,33 +108,10 @@ public class TicketController {
                             classNotFoundException.printStackTrace();
                         }
                     });
-                    hBox.getChildren().add(close);
-                    hBox.setId(String.valueOf(ticket.getId()));
-                    this.list.getItems().add(hBox);
+                    raw++;
                 }
+                vboxList.getChildren().add(scrollPane);
             }
         }
-        list.setOnMouseClicked(Event -> {
-            HBox hBox = (HBox) list.getSelectionModel().getSelectedItem();
-
-            if (hBox != null) {
-                GetTicketController.ticketId = Integer.parseInt(hBox.getId());
-                try {
-                    ControllerRouter.geneRouter(router, GetTicketController.class);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-            }
-        });
     }
 }

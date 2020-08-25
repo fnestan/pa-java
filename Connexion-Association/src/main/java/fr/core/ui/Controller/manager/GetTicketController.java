@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.FileNotFoundException;
@@ -22,11 +23,10 @@ import java.util.Optional;
 public class GetTicketController {
     public MenuBar menuBar;
     public Label labelTicket;
-    public VBox vboxmessage;
     public TextArea mesageToSend;
     public Button sendMessage;
     public static Integer ticketId;
-    public ScrollPane scroll;
+    public VBox box;
     private Router router;
     private ITicketService iTicketService;
 
@@ -46,11 +46,17 @@ public class GetTicketController {
     }
 
     private void getTicket() throws IOException {
+        ScrollPane sp = new ScrollPane();
+        VBox vb = new VBox();
         Optional<Ticket> ticket = this.iTicketService.getTicketById(ticketId);
         labelTicket.setText(ticket.get().getNumber() + " - " + ticket.get().getLabel());
-        vboxmessage.setSpacing(10);
+        box.getChildren().addAll(sp);
+        VBox.setVgrow(sp, Priority.ALWAYS);
+        vb.setSpacing(10);
         for (Message me : ticket.get().getMessages()) {
             Pane splitPane = (Pane) FXMLLoader.load(this.getClass().getResource("/view/manager/panelofMessage.fxml"));
+            splitPane.setPrefWidth(750);
+            splitPane.setPrefHeight(120);
             if (me.getUserTrunqued().id == Session.user.getId()) {
                 splitPane.setStyle("-fx-background-color: #33FFE2");
             }
@@ -60,12 +66,25 @@ public class GetTicketController {
             labelDate.setText(me.getSendDate().toString());
             labelAuthor.setText(me.getUserTrunqued().firstname + " " + me.getUserTrunqued().lastname);
             labelMessage.setText(me.getContent());
-            vboxmessage.getChildren().add(splitPane);
+            sp.setContent(vb);
+            vb.getChildren().add(splitPane);
         }
     }
 
     public void send(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
-        iTicketService.createMessage(ticketId, mesageToSend.getText());
-        ControllerRouter.geneRouter(router, GetTicketController.class);
+        if (!mesageToSend.getText().equals("")){
+            iTicketService.createMessage(ticketId, mesageToSend.getText());
+            ControllerRouter.geneRouter(router, GetTicketController.class);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setContentText("Le message doit contenir du texte");
+            alert.showAndWait();
+        }
+
+    }
+
+    public void back(ActionEvent event) throws NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException, InvocationTargetException, ClassNotFoundException {
+        ControllerRouter.geneRouter(router, TicketController.class);
     }
 }

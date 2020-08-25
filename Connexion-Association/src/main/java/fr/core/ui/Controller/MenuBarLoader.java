@@ -143,9 +143,11 @@ public class MenuBarLoader {
             Stage stage1 = new Stage();
             Pane pane = new Pane();
             VBox vBox = new VBox();
-            TextField label = new TextField();
+            Label label = new Label("Nom du ticket : ");
+            TextField ticketName = new TextField();
             Button button = new Button("Créer");
             vBox.getChildren().add(label);
+            vBox.getChildren().add(ticketName);
             vBox.getChildren().add(button);
             pane.getChildren().add(vBox);
             Scene scene = new Scene(pane);
