@@ -16,10 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -134,6 +131,8 @@ public class AnnexDetailController {
     @FXML
     Button newPrd;
     @FXML
+    Button cancel;
+    @FXML
     ChoiceBox<Type> productType;
     @FXML
     Button saveProduct;
@@ -204,6 +203,8 @@ public class AnnexDetailController {
     public void setAnnexService(IAnnexService annexService) throws Exception {
         this.annexService = annexService;
         init();
+        GridPane gridPane = new GridPane();
+
     }
 
     public void setTypeService(ITypeService typeService) {
@@ -241,7 +242,7 @@ public class AnnexDetailController {
         this.stock.setOnAction(event -> {
             try {
                 AnnexStockController.AnnexId = annex.get().getId();
-                ControllerRouter.geneRouter(router,AnnexStockController.class);
+                ControllerRouter.geneRouter(router, AnnexStockController.class);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
@@ -588,20 +589,19 @@ public class AnnexDetailController {
                     alert.setAlertType(Alert.AlertType.ERROR);
                     alert.setContentText("veuiller rentrer un telephone valide");
                     alert.showAndWait();
-                   /* */
-                } else if (!email.getText().matches(regex)){
+                } else if (!email.getText().matches(regex)) {
                     Alert alert = new Alert(null);
                     alert.setTitle("Modification d'une annexe");
                     alert.setAlertType(Alert.AlertType.ERROR);
                     alert.setContentText("Veuillez rentrer un email valide");
                     alert.showAndWait();
-                } else if (!zipcode.getText().matches("\\d{5}")){
+                } else if (!zipcode.getText().matches("\\d{5}")) {
                     Alert alert = new Alert(null);
                     alert.setTitle("Modification d'une annexe");
                     alert.setAlertType(Alert.AlertType.ERROR);
                     alert.setContentText("Veuillez rentrer un code postal valide");
                     alert.showAndWait();
-                }else {
+                } else {
                     annex.get().setDescription(description.getText());
                     annex.get().setEmail(email.getText());
                     annex.get().setCity(city.getText());
@@ -642,13 +642,20 @@ public class AnnexDetailController {
     }
 
     private void listServices() throws IOException {
+        ScrollPane scrollPane = new ScrollPane();
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(25);
+        gridPane.setVgap(15);
+        scrollPane.setContent(gridPane);
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/view/manager/serviceListView.fxml"));
         Pane splitPane = fxmlLoader.load();
         border.setCenter(splitPane);
         Pane p = (Pane) border.getChildren().get(0);
         Optional<List<Service>> optionalServices = annexService.listServices(this.idAnnex);
-        ScrollPane scrollPane = (ScrollPane) p.getChildren().get(0);
+        this.servicelistVbox = (VBox) p.getChildren().get(0);
         Button newService = (Button) p.getChildren().get(1);
+        Button back = (Button) p.getChildren().get(2);
         newService.setOnAction(event -> {
             try {
                 this.createService();
@@ -656,21 +663,28 @@ public class AnnexDetailController {
                 e.printStackTrace();
             }
         });
-        this.servicelistVbox = (VBox) scrollPane.getContent();
+        back.setOnAction(event -> {
+            try {
+                this.genericDetail();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         if (optionalServices.isPresent()) {
             if (optionalServices.get().size() > 0) {
+                int raw = 0;
                 for (Service service : optionalServices.get()) {
-                    HBox hBox = new HBox();
-                    hBox.setSpacing(20.0);
-                    servicelistVbox.setSpacing(10.0);
                     Label label = new Label(service.getNom());
                     Button read = new Button("Consulter");
                     Button delete = new Button("Supprimer");
+                    gridPane.add(label, 0, raw);
+                    gridPane.add(read, 1, raw);
+                    gridPane.add(delete, 2, raw);
                     read.setOnAction(event -> {
                         Integer idService = service.getId();
                         try {
                             GetServiceController.serviceId = idService;
-                            ControllerRouter.geneRouter(router,GetServiceController.class);
+                            ControllerRouter.geneRouter(router, GetServiceController.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -683,15 +697,13 @@ public class AnnexDetailController {
                             e.printStackTrace();
                         }
                     });
-                    hBox.getChildren().add(label);
-                    hBox.getChildren().add(read);
-                    hBox.getChildren().add(delete);
-                    servicelistVbox.getChildren().add(hBox);
+                    raw++;
                 }
+                servicelistVbox.getChildren().add(scrollPane);
             } else {
-                HBox hBox = new HBox();
-                hBox.getChildren().add(new Label("Vous n'avez aucun service consultable"));
-                servicelistVbox.getChildren().add(hBox);
+                Label label = new Label("Vous n'avez aucun service consultable");
+                gridPane.add(label, 0, 0);
+                servicelistVbox.getChildren().add(scrollPane);
             }
         }
     }
@@ -709,6 +721,14 @@ public class AnnexDetailController {
         serviceQuantite = (TextField) p.getChildren().get(9);
         hour = (ChoiceBox) p.getChildren().get(10);
         min = (ChoiceBox) p.getChildren().get(11);
+        Button back = (Button) p.getChildren().get(13);
+        back.setOnAction(event -> {
+            try {
+                this.listServices();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         hour.setItems(FXCollections.observableList(hours));
         min.setItems(FXCollections.observableList(mins));
         create.setDisable(true);
@@ -791,6 +811,7 @@ public class AnnexDetailController {
         addProduct = (Button) p.getChildren().get(11);
         search = (TextField) p.getChildren().get(12);
         newPrd = (Button) p.getChildren().get(13);
+        cancel = (Button) p.getChildren().get(14);
         this.createDonation();
     }
 
@@ -829,6 +850,13 @@ public class AnnexDetailController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        cancel.setOnAction(event -> {
+            try {
+                this.listDonation();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         addProduct.setOnAction(event -> {
@@ -895,6 +923,12 @@ public class AnnexDetailController {
 
 
     private void listDonation() throws IOException {
+        ScrollPane scrollPane = new ScrollPane();
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(25);
+        gridPane.setVgap(15);
+        scrollPane.setContent(gridPane);
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/view/manager/donationListView.fxml"));
         Pane splitPane = fxmlLoader.load();
         border.setCenter(splitPane);
@@ -902,6 +936,7 @@ public class AnnexDetailController {
         Optional<List<Donation>> optionalDonation = annexService.listDonations(idAnnex);
         this.donationlistVbox = (VBox) p.getChildren().get(0);
         Button newDonation = (Button) p.getChildren().get(1);
+        Button back = (Button) p.getChildren().get(3);
         newDonation.setOnAction(event -> {
             try {
                 this.createDonationForm();
@@ -909,19 +944,27 @@ public class AnnexDetailController {
                 e.printStackTrace();
             }
         });
+        back.setOnAction(event -> {
+            try {
+                this.genericDetail();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         if (optionalDonation.isPresent()) {
             if (optionalDonation.get().size() == 0) {
-                HBox hBox = new HBox();
-                hBox.getChildren().add(new Label("Il n'y aucune donation disponible"));
-                donationlistVbox.getChildren().add(hBox);
+                Label label = new Label("Il n'y aucune donation disponible");
+                gridPane.add(label, 0, 0);
+                donationlistVbox.getChildren().add(scrollPane);
             }
+            int raw = 0;
             for (Donation donation : optionalDonation.get()) {
-                HBox hBox = new HBox();
-                hBox.setSpacing(20.0);
-                donationlistVbox.setSpacing(10.0);
                 Label label = new Label(donation.getNom());
                 Button read = new Button("Consulter");
                 Button delete = new Button("Supprimer");
+                gridPane.add(label, 0, raw);
+                gridPane.add(read, 1, raw);
+                gridPane.add(delete, 2, raw);
                 delete.setOnAction(event -> {
                     Integer idDonation = donation.getId();
                     try {
@@ -930,10 +973,6 @@ public class AnnexDetailController {
                         e.printStackTrace();
                     }
                 });
-                hBox.getChildren().add(label);
-                hBox.getChildren().add(read);
-                hBox.getChildren().add(delete);
-                donationlistVbox.getChildren().add(hBox);
                 read.setOnAction(actionEvent -> {
                     GetDonationController.donationId = donation.getId();
                     try {
@@ -952,7 +991,9 @@ public class AnnexDetailController {
                         classNotFoundException.printStackTrace();
                     }
                 });
+                raw++;
             }
+            donationlistVbox.getChildren().add(scrollPane);
         }
     }
 

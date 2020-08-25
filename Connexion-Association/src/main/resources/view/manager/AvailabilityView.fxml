@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="paneAnnex" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneAnnex" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox fx:id="vboxDay" layoutX="79.0" layoutY="61.0" prefHeight="369.0" prefWidth="707.0">
             <children>
@@ -16,13 +15,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="81.0" text="Lundi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="mondayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="mondayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -31,13 +29,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="78.0" text="Mardi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="tuesdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="tuesdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -46,13 +43,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="77.0" text="Mercredi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="wednesdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="wednesdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -61,13 +57,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="74.0" text="Jeudi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="thursdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="thursdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -76,13 +71,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="73.0" text="Vendredi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="fridayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="fridayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -91,13 +85,12 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="73.0" text="Samedi">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="saturdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="saturdayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -106,18 +99,18 @@
                     <children>
                         <Label prefHeight="18.0" prefWidth="72.0" text="Dimanche">
                             <HBox.margin>
-                                <Insets top="25.0"/>
+                                <Insets top="25.0" />
                             </HBox.margin>
                         </Label>
-                        <Button fx:id="sundayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="26.0" prefWidth="35.0" text="+">
+                        <Button fx:id="sundayAdd" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+">
                             <HBox.margin>
-                                <Insets top="20.0"/>
+                                <Insets top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
                 </HBox>
             </children>
         </VBox>
+      <Label layoutX="400.0" layoutY="35.0" text="Horaires de l'annexe" />
     </children>
 </Pane>

@@ -8,12 +8,13 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="donationlistVbox" layoutX="265.0" layoutY="127.0" prefHeight="433.0" prefWidth="700.0" style="-fx-background-color: cyan;" />
+      <VBox fx:id="donationlistVbox" layoutX="265.0" layoutY="127.0" prefHeight="433.0" prefWidth="700.0" />
       <Button fx:id="callDonationformButton" layoutX="428.0" layoutY="580.0" mnemonicParsing="false" text="Créer donation" />
       <Label layoutX="462.0" layoutY="100.0" text="List des donations " textFill="#54e3c6">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Button layoutX="604.0" layoutY="580.0" mnemonicParsing="false" text="Retour" />
    </children>
 </Pane>

@@ -28,5 +28,6 @@
       <ChoiceBox fx:id="hour" layoutX="460.0" layoutY="388.0" prefHeight="25.0" prefWidth="44.0" />
       <ChoiceBox fx:id="min" layoutX="518.0" layoutY="388.0" prefHeight="25.0" prefWidth="44.0" />
       <Label layoutX="465.0" layoutY="363.0" text="Heure :" />
+      <Button layoutX="419.0" layoutY="462.0" mnemonicParsing="false" text="Annuler" />
    </children>
 </Pane>

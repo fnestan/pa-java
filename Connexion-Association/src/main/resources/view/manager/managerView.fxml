@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane style="-fx-background-color: DARKCYAN;" fx:id="paneGerant" prefHeight="580.0" prefWidth="800.0"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneGerant" prefHeight="580.0" prefWidth="800.0" style="-fx-background-color: DARKCYAN;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox fx:id="vBox" layoutX="295.0" layoutY="41.0" prefHeight="530.0" prefWidth="501.0"/>
+        <VBox fx:id="vBox" layoutX="295.0" layoutY="41.0" prefHeight="530.0" prefWidth="501.0" />
+      <Label layoutX="421.0" layoutY="14.0" text="Liste des gerants de l'annexe" />
     </children>
 </Pane>
