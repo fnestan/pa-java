@@ -8,10 +8,9 @@ import fr.core.service.inter.IAnnexService;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.io.FileNotFoundException;
@@ -26,6 +25,8 @@ public class ListUserDonationController {
     public static Donation donation;
     public IAnnexService iAnnexService;
     public Router router;
+    public Button back;
+    public ScrollPane scroll;
 
 
     public void setiAnnexService(IAnnexService iAnnexService) {
@@ -42,12 +43,19 @@ public class ListUserDonationController {
     }
 
     public void giftList() {
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(25);
+        gridPane.setVgap(15);
+        scroll.setContent(gridPane);
         title.setText("Donation de " + user.getFirstname() + " " + user.getLastname());
         Optional<List<UserDonation>> userDonations = iAnnexService.getDonation(donation.getId(), user.getId());
         if (userDonations.isPresent()) {
+            gridPane.add(new Label("Nom du produit"), 0, 0);
+            gridPane.add(new Label("Qunatité"), 1, 0);
+            gridPane.add(new Label("Statut"), 2, 0);
+            int raw = 1;
             for (UserDonation userDonation : userDonations.get()) {
-                HBox hBox = new HBox();
-                hBox.setSpacing(20.0);
                 String status = null;
                 Label statusLabel = new Label();
                 if (userDonation.isGive()) {
@@ -56,13 +64,13 @@ public class ListUserDonationController {
                     status = "En attente";
                 }
                 statusLabel.setText(status);
-                hBox.getChildren().add(new Label("Nom du produit : " + userDonation.getProduct().getName()));
-                String quantity = String.valueOf("Quantité : " + userDonation.getQuantity()) + " " + userDonation.getProduct().getType().getName();
-                hBox.getChildren().add(new Label(quantity));
-                hBox.getChildren().add(statusLabel);
+                gridPane.add(new Label(userDonation.getProduct().getName()), 0, raw);
+                String quantity = String.valueOf(userDonation.getQuantity()) + " " + userDonation.getProduct().getType().getName();
+                gridPane.add(new Label(quantity), 1, raw);
+                gridPane.add(statusLabel, 2, raw);
                 if (!userDonation.isGive()) {
                     Button button = new Button("Récuperer");
-                    hBox.getChildren().add(button);
+                    gridPane.add(button, 3, raw);
                     button.setOnAction(event -> {
                         Optional<Information> information = iAnnexService.setGive(userDonation.getId());
                         Alert alert = new Alert(null);
@@ -74,7 +82,7 @@ public class ListUserDonationController {
                         button.setVisible(false);
                     });
                 }
-                donationListView.getItems().add(hBox);
+                raw++;
             }
         }
     }

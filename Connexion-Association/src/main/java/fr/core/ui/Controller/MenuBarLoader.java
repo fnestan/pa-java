@@ -1,13 +1,11 @@
 package fr.core.ui.Controller;
 
-import fr.core.model.customModel.Login;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.Ticket;
 import fr.core.plugin.run.RunPlugin;
 import fr.core.service.config.ConfigService;
 import fr.core.service.inter.IAnnexService;
 import fr.core.service.inter.ITicketService;
-import fr.core.ui.Controller.manager.AnnexStockController;
 import fr.core.ui.Controller.manager.GetTicketController;
 import fr.core.ui.Controller.manager.HomeController;
 import fr.core.ui.Controller.manager.TicketController;
@@ -25,13 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class MenuBarLoader {
     RunPlugin runPlugin = new RunPlugin();
-    List<Login> users = new ArrayList<>();
     private String basePath = System.getProperty("user.home") + "/pluginsLoads";
     public static Object currentData;
 
@@ -39,8 +34,8 @@ public class MenuBarLoader {
     public MenuBar LoadMenuBar(MenuBar menuBar, Router router) throws Exception {
         boolean fileExist = Files.exists(Path.of(basePath + "/plugins.csv"));
         if (!fileExist) {
-           Files.createDirectory(Path.of(basePath));
-           Files.createFile(Path.of(basePath + "/plugins.csv"));
+            Files.createDirectory(Path.of(basePath));
+            Files.createFile(Path.of(basePath + "/plugins.csv"));
         }
         BufferedReader csvReader = new BufferedReader(new FileReader(basePath + "/plugins.csv"));
         String row = null;
@@ -64,21 +59,11 @@ public class MenuBarLoader {
                 Menu menu = new Menu(data[1]);
                 runPlugin.load(data[0]);
                 MenuItem exec = new MenuItem("Exécuter");
-                MenuItem del = new MenuItem("Supprimer");
                 menu.getItems().add(exec);
-                menu.getItems().add(del);
                 plugin.getItems().add(menu);
                 exec.setOnAction(actionEvent -> {
                     try {
                         csvReader.close();
-                      /*  Login login = new Login();
-                        Login login2 = new Login();
-                        login.password = "ededde";
-                        login.login = "deedede";
-                        login2.password = "tttt";
-                        login2.login = "tt";
-                        users.add(login);
-                        users.add(login2);*/
                         runPlugin.runplugin(menu.getText(), currentData.toString());
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
@@ -87,19 +72,6 @@ public class MenuBarLoader {
                     } catch (InstantiationException e) {
                         e.printStackTrace();
                     } catch (ReflectiveOperationException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                del.setOnAction(actionEvent -> {
-                    RunPlugin runPlugin = new RunPlugin();
-                    try {
-                        csvReader.close();
-                        runPlugin.deletePlugin(menu.getText());
-                        plugin.getItems().remove(menu);
-                    } catch (IOException | URISyntaxException | NullPointerException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
@@ -200,11 +172,12 @@ public class MenuBarLoader {
     private void addPlugin(File file) throws IOException, ReflectiveOperationException {
         try {
             RunPlugin runPlugin = new RunPlugin();
-            String n = runPlugin.load(file.getAbsolutePath());
+            String load = runPlugin.load(file.getAbsolutePath());
             File f = file;
+            String type = runPlugin.getPluginType();
             File fif = new File(basePath);
             FileWriter csvWriter = new FileWriter(basePath + "/plugins.csv", true);
-            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + n + "\n");
+            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";on" + ";" + type + "\n");
             csvWriter.close();
             Files.copy(Path.of(f.getAbsolutePath()), Path.of(fif.getAbsolutePath() + "/" + f.getName()));
         } catch (ClassNotFoundException classNotFoundException) {
