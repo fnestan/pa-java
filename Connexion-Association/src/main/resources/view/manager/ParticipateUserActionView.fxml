@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,6 +21,9 @@
       </Button>
       <MenuBar fx:id="menuBar" layoutY="1.0" />
       <Label fx:id="labelTitle" layoutX="320.0" layoutY="80.0" prefHeight="18.0" prefWidth="196.0" />
-      <ListView fx:id="userListView" layoutX="4.0" layoutY="123.0" prefHeight="421.0" prefWidth="792.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="170.0" />
+      <ScrollPane fx:id="scroll" layoutX="320.0" layoutY="136.0" prefHeight="529.0" prefWidth="716.0">
+        <content>
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

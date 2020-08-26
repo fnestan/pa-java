@@ -16,7 +16,7 @@
         <Label fx:id="labelDonationName" layoutX="252.0" layoutY="119.0" prefHeight="18.0" prefWidth="162.0" />
         <ScrollPane fx:id="scroll" layoutY="125.0" prefHeight="380.0" prefWidth="800.0" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="200.0">
          <content>
-            <ListView fx:id="ListViewRequerir" prefHeight="370.0" prefWidth="790.0" />
+
          </content></ScrollPane>
       <Button fx:id="back" contentDisplay="TOP" layoutY="36.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="45.0">
          <graphic>

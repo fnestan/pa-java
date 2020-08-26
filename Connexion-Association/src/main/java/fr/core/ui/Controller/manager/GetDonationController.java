@@ -8,7 +8,9 @@ import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,7 +22,6 @@ public class GetDonationController {
     public MenuBar menuBar;
     public Label labelDonationName;
     public Button back;
-    public ListView ListViewRequerir;
     public ScrollPane scroll;
     public TextArea description;
     private Router router;
@@ -44,17 +45,28 @@ public class GetDonationController {
     }
 
     private void getDonation() throws IOException {
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(25);
+        gridPane.setVgap(15);
+        scroll.setContent(gridPane);
         Optional<Donation> donation = this.iAnnexService.getDonationById(donationId);
         labelDonationName.setText(donation.get().getNom());
         description.setWrapText(true);
         description.setText(donation.get().getDescription());
         if (donation.isPresent()) {
             this.donation = donation.get();
+            int raw = 1;
+            gridPane.add(new Label("Nom du produit"), 0, 0);
+            gridPane.add(new Label("Quantite du produit"), 1, 0);
+            gridPane.add(new Label("Quantite restante"), 2, 0);
             for (int i = 0; i < donation.get().getRequerirs().size(); i++) {
-                ListViewRequerir.getItems().add(new Label(
-                        " Nom du produit :  " + donation.get().getRequerirs().get(i).getProduct().getName() + " Quantité du produit demandée: " + donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()
-                                + " Quantité du produit encore necessaire: " + donation.get().getRequerirs().get(i).getQuantityLeft() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName() + "\n\n"));
+                gridPane.add(new Label(donation.get().getRequerirs().get(i).getProduct().getName()), 0, raw);
+                gridPane.add(new Label(String.valueOf(donation.get().getRequerirs().get(i).getQuantity() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName())), 1, raw);
+                gridPane.add(new Label(donation.get().getRequerirs().get(i).getQuantityLeft() + " " + donation.get().getRequerirs().get(i).getProduct().getType().getName()), 2, raw);
+                raw++;
             }
+
         }
     }
 

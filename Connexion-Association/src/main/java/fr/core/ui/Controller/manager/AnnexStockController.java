@@ -6,8 +6,10 @@ import fr.core.service.inter.IStockService;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -20,10 +22,10 @@ import java.util.Optional;
 
 public class AnnexStockController {
     public Label title;
-    public ListView stockListView;
     public IStockService iStockService;
     public Router router;
     public static int AnnexId;
+    public VBox vbox;
 
     public void setRouter(Router router) throws Exception {
         this.router = router;
@@ -39,26 +41,31 @@ public class AnnexStockController {
         Optional<List<Stock>> stocks = iStockService.getStock(AnnexId);
         if (stocks.isPresent()) {
             if (stocks.get().size() == 0) {
-                stockListView.getItems().add(new Label("Vous n'avez aucun produit en stock"));
+                vbox.getChildren().add(new Label("Vous n'avez aucun produit en stock"));
             } else {
+                GridPane gridPane = new GridPane();
+                gridPane.setPadding(new Insets(20));
+                gridPane.setHgap(25);
+                gridPane.setVgap(15);
+                int raw = 1;
+                gridPane.add(new Label("Nom du produit"), 0, 0);
+                gridPane.add(new Label("Quantite du produit"), 1, 0);
                 for (Stock stock : stocks.get()) {
-                    HBox hbox = new HBox();
-                    hbox.setSpacing(20);
-                    String product = "Nom du produit: " + stock.getProduct().getName();
+                    String product = stock.getProduct().getName();
                     Label labelProduct = new Label(product);
-                    hbox.getChildren().add(labelProduct);
-                    String quantity = "Quantité en stock du produit: "
-                            + stock.getQuantity()
+                    String quantity = stock.getQuantity()
                             + " " + stock.getProduct().getType().getName();
                     Label labelQuantity = new Label(quantity);
-                    hbox.getChildren().add(labelQuantity);
                     Button updateStockButton = new Button("Modifier");
-                    hbox.getChildren().add(updateStockButton);
-                    stockListView.getItems().add(hbox);
+                    gridPane.add(labelProduct, 0, raw);
+                    gridPane.add(labelQuantity, 1, raw);
+                    gridPane.add(updateStockButton, 2, raw);
                     updateStockButton.setOnAction(event -> {
                         updateStock(stock.getId());
                     });
+                    raw++;
                 }
+                vbox.getChildren().add(gridPane);
             }
         }
     }

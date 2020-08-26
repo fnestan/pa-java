@@ -8,7 +8,9 @@ import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.io.FileNotFoundException;
@@ -20,11 +22,11 @@ import java.util.Optional;
 public class ParticipateUserController {
     public MenuBar menuBar;
     public Label labelTitle;
-    public ListView userListView;
     static String title;
     static Donation donation;
     static String typeAction;
     static List<User> userList = new ArrayList<>();
+    public ScrollPane scroll;
     private Router router;
     private IUserService iUserService;
 
@@ -41,26 +43,32 @@ public class ParticipateUserController {
     }
 
     public void setUserListView() {
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(25);
+        gridPane.setVgap(15);
+        scroll.setContent(gridPane);
         labelTitle.setText(title);
         if (userList.size() > 0) {
+            int raw = 1;
+            gridPane.add(new Label("Nom Prénom"), 0, 0);
+            gridPane.add(new Label("Email"), 1, 0);
             for (User user : userList) {
-                HBox hBox = new HBox();
-                hBox.setSpacing(20);
                 Label labelName = new Label();
                 labelName.setText(user.getFirstname() + " " + user.getLastname());
                 Label labelEmail = new Label();
                 labelEmail.setText(user.getEmail());
                 Button report = new Button("Reporter");
                 Button contact = new Button("Contacter");
-                hBox.getChildren().add(labelName);
-                hBox.getChildren().add(labelEmail);
-                hBox.getChildren().add(contact);
+                gridPane.add(labelName, 0, raw);
+                gridPane.add(labelEmail, 1, raw);
+                gridPane.add(contact, 2, raw);
                 if (!user.isReported()) {
-                    hBox.getChildren().add(report);
+                    gridPane.add(report, 3, raw);
                 }
                 if (typeAction.equals("Donation")) {
                     Button gift = new Button("Don");
-                    hBox.getChildren().add(gift);
+                    gridPane.add(gift, 4, raw);
                     gift.setOnAction(event -> {
                         ListUserDonationController.user = user;
                         ListUserDonationController.donation = donation;
@@ -81,7 +89,6 @@ public class ParticipateUserController {
                         }
                     });
                 }
-                userListView.getItems().add(hBox);
                 contact.setOnAction(event -> {
                     try {
                         ContactUserController.user = user;
@@ -117,7 +124,7 @@ public class ParticipateUserController {
             Label labelEmpty = new Label();
             labelEmpty.setText("Il n'y a aucun utilisateur qui participe à cette action");
             hBox.getChildren().add(labelEmpty);
-            userListView.getItems().add(hBox);
+            gridPane.getChildren().add(hBox);
         }
 
     }
