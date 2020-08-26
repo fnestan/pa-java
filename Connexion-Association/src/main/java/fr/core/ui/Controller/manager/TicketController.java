@@ -58,13 +58,14 @@ public class TicketController {
                 hBox.getChildren().add(new Label("Vous n'avez aucun tickets de disponible"));
                 this.vboxList.getChildren().add(hBox);
             } else {
-                int raw = 0;
+                int raw = 1;
                 ScrollPane scrollPane = new ScrollPane();
                 GridPane gridPane = new GridPane();
                 gridPane.setPadding(new Insets(20));
                 gridPane.setHgap(25);
                 gridPane.setVgap(15);
                 scrollPane.setContent(gridPane);
+                gridPane.add(new Label("numéro - Libellé"), 0, 0);
                 for (Ticket ticket : tickets.get()) {
                     TextFlow text = new TextFlow(new Text(ticket.getNumber() + " - " + ticket.getLabel()));
                     Button read = new Button("Voir");

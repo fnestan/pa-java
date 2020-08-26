@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.core.ui.Controller.manager.HomeController">
     <children>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" style="-fx-background-color: DARKCYAN;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <VBox fx:id="vb" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" style="-fx-background-color: CYAN;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
             <children>
             <Label text="Acceuil : Liste de mes Annexes" textFill="#83c476">
                <font>
@@ -23,7 +23,6 @@
                         <Image url="@../../images/connexion.png" />
                     </image>
                 </ImageView>
-                <ListView fx:id="list" prefHeight="400.0" prefWidth="600.0" />
             </children>
         </VBox>
           <MenuBar fx:id="menuBar" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" />

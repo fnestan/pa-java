@@ -47,7 +47,7 @@ public class MenuBarLoader {
         Stage stage = new Stage();
         final FileChooser fileChooser = new FileChooser();
         Menu plugin = new Menu("Plugins");
-        Menu viewMenu = new Menu("Vues");
+        Menu viewMenu = new Menu("Menu");
         MenuItem Home = new MenuItem("Home");
         MenuItem myTickets = null;
         if (Session.user.getRoleId() == 3) {

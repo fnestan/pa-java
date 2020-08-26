@@ -6,9 +6,13 @@ import fr.core.ui.Controller.MenuBarLoader;
 import fr.core.ui.ControllerRouter;
 import fr.core.ui.Router;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -18,16 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class HomeController {
+    public VBox vb;
     private Router router;
 
     @FXML
     MenuBar menuBar;
 
-    @FXML
-    ScrollPane scrolAnnexes;
-
-    @FXML
-    ListView list;
 
     IAnnexService annexService;
 
@@ -49,48 +49,57 @@ public class HomeController {
     }
 
     public void listAnnex() throws Exception {
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(30);
+        gridPane.setVgap(30);
+        vb.setAlignment(Pos.CENTER);
+        vb.getChildren().add(gridPane);
         Optional<List<Annex>> annexes = annexService.myAnnexes();
         if (annexes.isPresent()) {
             if (annexes.get().size() == 0) {
-                Pane p = new Pane();
                 TextFlow text = new TextFlow(new Text("Vous n'avez aucune annexe accessible"));
-                p.getChildren().add(text);
-                this.list.getItems().add(text);
+                gridPane.add(text, 0, 0);
             } else {
+                int raw = 1;
+                gridPane.add(new Label("Nom"), 0, 0);
+                gridPane.add(new Label("Email"), 1, 0);
+                gridPane.add(new Label("Adresse"), 2, 0);
+                gridPane.add(new Label("Téléphone"), 3, 0);
+                gridPane.add(new Label("Actions"), 4, 0);
                 for (Annex annex : annexes.get()) {
-                    HBox hBox = new HBox();
-                    hBox.setSpacing(30);
-                    hBox.getChildren().add(new Label("Nom de l'annexe : " +annex.getName()));
-                    hBox.getChildren().add(new Label("Couriel de l'annexe : " +annex.getEmail()));
-                    hBox.getChildren().add(new Label("Adresse de l'annexe : " +annex.getStreet() + " " + annex.getZipCode() + "   "
-                            + annex.getCity()));
-                    hBox.getChildren().add(new Label("Téléphone de l'annexe : " +annex.getPhone()));
-                    hBox.setId(String.valueOf(annex.getId()));
-                    this.list.getItems().add(hBox);
-
+                    Label name = new Label(annex.getName());
+                    Label email = new Label(annex.getEmail());
+                    Label address = new Label(annex.getStreet() + " " + annex.getZipCode() + "   "
+                            + annex.getCity());
+                    Label phone = new Label(annex.getPhone());
+                    Button edit = new Button("Consulter");
+                    gridPane.add(name, 0, raw);
+                    gridPane.add(email, 1, raw);
+                    gridPane.add(address, 2, raw);
+                    gridPane.add(phone, 3, raw);
+                    gridPane.add(edit, 4, raw);
+                    raw++;
+                    edit.setOnAction(event -> {
+                        AnnexDetailController.idAnnex = annex.getId();
+                        try {
+                            ControllerRouter.geneRouter(router, AnnexDetailController.class);
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                        }
+                    });
                 }
             }
         }
-        list.setOnMouseClicked(Event -> {
-            HBox t = (HBox) list.getSelectionModel().getSelectedItem();
-            if (t != null) {
-                AnnexDetailController.idAnnex = Integer.parseInt(t.getId());
-                try {
-                    ControllerRouter.geneRouter(router, AnnexDetailController.class);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-            }
-        });
     }
 }

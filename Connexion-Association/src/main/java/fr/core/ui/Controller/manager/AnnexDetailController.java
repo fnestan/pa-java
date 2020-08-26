@@ -672,7 +672,8 @@ public class AnnexDetailController {
         });
         if (optionalServices.isPresent()) {
             if (optionalServices.get().size() > 0) {
-                int raw = 0;
+                int raw = 1;
+                gridPane.add(new Label("Nom"), 0, 0);
                 for (Service service : optionalServices.get()) {
                     Label label = new Label(service.getNom());
                     Button read = new Button("Consulter");
@@ -738,13 +739,12 @@ public class AnnexDetailController {
                 alert.setTitle("Création d'un service");
                 alert.setContentText("Vous devez remplir le champs du formulaire");
                 alert.showAndWait();
-            } else if (!serviceQuantite.getText().matches("[0-9]*")){
+            } else if (!serviceQuantite.getText().matches("[0-9]*")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Création d'un service");
                 alert.setContentText("La quantité doit etre un nombre");
                 alert.showAndWait();
-            }
-            else {
+            } else {
                 LocalDateTime localDateTime;
                 LocalDate local = date.getValue();
                 if (hour.getSelectionModel().getSelectedItem() == null || min.getSelectionModel().getSelectedItem() == null) {
@@ -943,7 +943,8 @@ public class AnnexDetailController {
                 gridPane.add(label, 0, 0);
                 donationlistVbox.getChildren().add(scrollPane);
             }
-            int raw = 0;
+            int raw = 1;
+            gridPane.add(new Label("Nom"), 0, 0);
             for (Donation donation : optionalDonation.get()) {
                 Label label = new Label(donation.getNom());
                 Button read = new Button("Consulter");
@@ -1036,7 +1037,6 @@ public class AnnexDetailController {
                 stage.close();
                 nbStageCreationProduct = 0;
             } else {
-                //alert d'erreur
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Ajout d'un produit");
                 alert.setContentText("L'un des champs obligatoire n'est pas renseigné");
