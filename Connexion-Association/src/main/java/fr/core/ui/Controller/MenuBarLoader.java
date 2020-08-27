@@ -1,5 +1,6 @@
 package fr.core.ui.Controller;
 
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.Ticket;
 import fr.core.plugin.run.RunPlugin;
@@ -20,7 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -58,26 +58,48 @@ public class MenuBarLoader {
                 String[] data = row.split(";");
                 Menu menu = new Menu(data[1]);
                 runPlugin.load(data[0]);
-                MenuItem exec = new MenuItem("Exécuter");
-                menu.getItems().add(exec);
+                if (data[3].equals("ManRun")) {
+                    MenuItem exec = new MenuItem("Exécuter");
+                    menu.getItems().add(exec);
+                    exec.setOnAction(actionEvent -> {
+                        try {
+                            csvReader.close();
+                            runPlugin.runplugin(menu.getText(), currentData.toString());
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (ReflectiveOperationException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+                if (data[2].equals("ON")){
+                    MenuItem desactivate = new MenuItem("Désactiver");
+                    menu.getItems().add(desactivate);
+                    desactivate.setOnAction(event -> {
+                        try {
+                            runPlugin.setPluginStatus(data[0],"OFF");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }else {
+                    MenuItem activate = new MenuItem("Activer");
+                    menu.getItems().add(activate);
+                    activate.setOnAction(event -> {
+                        try {
+                            runPlugin.setPluginStatus(data[0],"ON");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
                 plugin.getItems().add(menu);
-                exec.setOnAction(actionEvent -> {
-                    try {
-                        csvReader.close();
-                        runPlugin.runplugin(menu.getText(), currentData.toString());
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (ReflectiveOperationException e) {
-                        e.printStackTrace();
-                    }
-                });
             }
         }
-
         csvReader.close();
         MenuItem addPlugin = new MenuItem("Ajouter un plugin");
         plugin.getItems().addAll(addPlugin);
@@ -177,7 +199,7 @@ public class MenuBarLoader {
             String type = runPlugin.getPluginType();
             File fif = new File(basePath);
             FileWriter csvWriter = new FileWriter(basePath + "/plugins.csv", true);
-            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";on" + ";" + type + "\n");
+            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";OFF" + ";" + type + "\n");
             csvWriter.close();
             Files.copy(Path.of(f.getAbsolutePath()), Path.of(fif.getAbsolutePath() + "/" + f.getName()));
         } catch (ClassNotFoundException classNotFoundException) {

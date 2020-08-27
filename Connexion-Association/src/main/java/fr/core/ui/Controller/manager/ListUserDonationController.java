@@ -1,6 +1,7 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Information;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.User;
 import fr.core.model.databaseModel.UserDonation;

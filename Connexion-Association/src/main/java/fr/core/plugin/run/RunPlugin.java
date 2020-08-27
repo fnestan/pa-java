@@ -1,6 +1,11 @@
 package fr.core.plugin.run;
 
+import fr.core.model.customModel.Session;
 import fr.plugin.IPluginCA;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -80,5 +85,27 @@ public class RunPlugin {
 
     public String getPluginType() {
         return pluginType;
+    }
+
+    public void setPluginStatus(String datum, String status) throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(basePath + "/plugins.csv"));
+        String row = null;
+        String file = "";
+        while ((row = csvReader.readLine()) != null) {
+            String[] data = row.split(";");
+            if (data[0].equals(datum)) {
+                data[2] = status;
+            }
+            file.concat(data[0]);
+            file.concat(data[1]);
+            file.concat(data[2]);
+            file.concat(data[3]);
+            file.concat("\n");
+
+        }
+        csvReader.close();
+        FileWriter csvWriter = new FileWriter(basePath + "/plugins.csv", false);
+        csvWriter.write(file);
+        csvWriter.close();
     }
 }
