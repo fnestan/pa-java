@@ -1,6 +1,8 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Information;
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IUserService;
@@ -50,6 +52,13 @@ public class ParticipateUserController {
         scroll.setContent(gridPane);
         labelTitle.setText(title);
         if (userList.size() > 0) {
+
+            PluginModelData pluginModelData = new PluginModelData();
+            pluginModelData.setScreen("Consultation du stock ");
+            pluginModelData.setOutput(userList);
+            pluginModelData.setInput(null);
+            PluginData.pluginModelData = pluginModelData;
+
             int raw = 1;
             gridPane.add(new Label("Nom Prénom"), 0, 0);
             gridPane.add(new Label("Email"), 1, 0);

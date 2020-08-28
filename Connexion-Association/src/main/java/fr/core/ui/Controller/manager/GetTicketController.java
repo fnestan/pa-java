@@ -1,5 +1,7 @@
 package fr.core.ui.Controller.manager;
 
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.Message;
 import fr.core.model.databaseModel.Ticket;
@@ -53,6 +55,13 @@ public class GetTicketController {
         box.getChildren().addAll(sp);
         VBox.setVgrow(sp, Priority.ALWAYS);
         vb.setSpacing(10);
+
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Consultation du stock ");
+        pluginModelData.setOutput(ticket.get().getMessages());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
         for (Message me : ticket.get().getMessages()) {
             Pane splitPane = (Pane) FXMLLoader.load(this.getClass().getResource("/view/manager/panelofMessage.fxml"));
             splitPane.setPrefWidth(750);

@@ -1,5 +1,7 @@
 package fr.core.ui.Controller.manager;
 
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Annex;
 import fr.core.service.inter.IAnnexService;
 import fr.core.ui.Controller.MenuBarLoader;
@@ -56,11 +58,16 @@ public class HomeController {
         vb.setAlignment(Pos.CENTER);
         vb.getChildren().add(gridPane);
         Optional<List<Annex>> annexes = annexService.myAnnexes();
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Acceuil liste des annexes");
         if (annexes.isPresent()) {
             if (annexes.get().size() == 0) {
                 TextFlow text = new TextFlow(new Text("Vous n'avez aucune annexe accessible"));
                 gridPane.add(text, 0, 0);
             } else {
+                pluginModelData.setOutput(annexes.get());
+                pluginModelData.setInput(null);
+                PluginData.pluginModelData = pluginModelData;
                 int raw = 1;
                 gridPane.add(new Label("Nom"), 0, 0);
                 gridPane.add(new Label("Email"), 1, 0);

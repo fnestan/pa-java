@@ -1,6 +1,8 @@
 package fr.core.ui.Controller.manager;
 
 import com.sun.source.tree.IfTree;
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.Ticket;
 import fr.core.service.inter.ITicketService;
@@ -59,6 +61,14 @@ public class TicketController {
                 this.vboxList.getChildren().add(hBox);
             } else {
                 int raw = 1;
+
+                PluginModelData pluginModelData = new PluginModelData();
+                pluginModelData.setScreen("Consultation du stock ");
+                pluginModelData.setOutput(tickets.get());
+                pluginModelData.setInput(null);
+                PluginData.pluginModelData = pluginModelData;
+
+
                 ScrollPane scrollPane = new ScrollPane();
                 GridPane gridPane = new GridPane();
                 gridPane.setPadding(new Insets(20));

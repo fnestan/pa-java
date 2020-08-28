@@ -1,6 +1,8 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Information;
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Stock;
 import fr.core.service.inter.IStockService;
 import fr.core.ui.ControllerRouter;
@@ -40,6 +42,13 @@ public class AnnexStockController {
         title.setText("Consultation du stock de l'annexe");
         Optional<List<Stock>> stocks = iStockService.getStock(AnnexId);
         if (stocks.isPresent()) {
+
+            PluginModelData pluginModelData = new PluginModelData();
+            pluginModelData.setScreen("Consultation du stock ");
+            pluginModelData.setOutput(stocks.get());
+            pluginModelData.setInput(null);
+            PluginData.pluginModelData = pluginModelData;
+
             if (stocks.get().size() == 0) {
                 vbox.getChildren().add(new Label("Vous n'avez aucun produit en stock"));
             } else {

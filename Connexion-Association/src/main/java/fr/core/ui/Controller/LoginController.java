@@ -1,7 +1,9 @@
 package fr.core.ui.Controller;
 
+import com.sun.source.util.Plugin;
 import fr.core.model.customModel.Login;
 import fr.core.model.customModel.Information;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IAuthService;
@@ -42,7 +44,8 @@ public class LoginController {
         this.authService = authService;
     }
 
-    public void testRoute(MouseEvent mouseEvent) {
+    public void login(MouseEvent mouseEvent) {
+
         Login login = new Login();
 //        login.login = this.LoginTextField.getText();
 //        login.password = this.password.getText();

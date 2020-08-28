@@ -1,5 +1,7 @@
 package fr.core.ui.Controller.manager;
 
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IAnnexService;
@@ -55,6 +57,13 @@ public class GetDonationController {
         description.setWrapText(true);
         description.setText(donation.get().getDescription());
         if (donation.isPresent()) {
+            
+            PluginModelData pluginModelData = new PluginModelData();
+            pluginModelData.setScreen("Consultation du stock ");
+            pluginModelData.setOutput(donation.get());
+            pluginModelData.setInput(null);
+            PluginData.pluginModelData = pluginModelData;
+
             this.donation = donation.get();
             int raw = 1;
             gridPane.add(new Label("Nom du produit"), 0, 0);

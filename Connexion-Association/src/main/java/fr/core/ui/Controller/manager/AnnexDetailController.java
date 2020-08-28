@@ -203,7 +203,6 @@ public class AnnexDetailController {
     public void setAnnexService(IAnnexService annexService) throws Exception {
         this.annexService = annexService;
         init();
-        GridPane gridPane = new GridPane();
 
     }
 
@@ -382,6 +381,14 @@ public class AnnexDetailController {
      * affichage des horaire pour une annexe
      */
     private void getAvailabilities() {
+
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Horaire de l'annexe");
+        pluginModelData.setOutput(annex.get().getAnnexAvailabilities());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
+
         for (AnnexAvailability annexAvailability : annex.get().getAnnexAvailabilities()) {
             String day = annexAvailability.getDay().getName();
             Label openning = new Label(annexAvailability.getOpeningTime().toString());
@@ -465,6 +472,14 @@ public class AnnexDetailController {
         List box = (List) p.getChildren();
         vBox = (VBox) box.get(0);
         vBox.setSpacing(20);
+
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Liste des managers");
+        pluginModelData.setOutput(annex.get().getUsers());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
+
         for (User user : annex.get().getUsers()) {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
@@ -546,6 +561,12 @@ public class AnnexDetailController {
     }
 
     private void getGenericDetail() {
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Information générales de l'annexe");
+        pluginModelData.setOutput(annex.get());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
         Pane p = (Pane) border.getChildren().get(0);
         List textField = (List) p.getChildren();
         name = (TextField) textField.get(0);
@@ -653,6 +674,15 @@ public class AnnexDetailController {
         border.setCenter(splitPane);
         Pane p = (Pane) border.getChildren().get(0);
         Optional<List<Service>> optionalServices = annexService.listServices(this.idAnnex);
+        /**
+         * plugin
+         */
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Liste des services de l'annexe");
+        pluginModelData.setOutput(optionalServices.get());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
         this.servicelistVbox = (VBox) p.getChildren().get(0);
         Button newService = (Button) p.getChildren().get(1);
         Button back = (Button) p.getChildren().get(2);
@@ -769,6 +799,15 @@ public class AnnexDetailController {
                     Alert alert = new Alert(null);
                     alert.setTitle("Création d'un service");
                     if (s.isPresent()) {
+                        /**
+                         * plugin
+                         */
+                        PluginModelData pluginModelData = new PluginModelData();
+                        pluginModelData.setScreen("Creation d'un service");
+                        pluginModelData.setOutput(null);
+                        pluginModelData.setInput(service);
+                        PluginData.pluginModelData = pluginModelData;
+
                         alert.setAlertType(Alert.AlertType.INFORMATION);
                         alert.setContentText("Votre service " + s.get().getNom() + " a bien été créé");
                         alert.showAndWait();
@@ -850,7 +889,7 @@ public class AnnexDetailController {
                     || productQuantity.getSelectionModel().getSelectedItem() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Ajout d'un produit");
-                alert.setContentText("La quantité ou le produit set null");
+                alert.setContentText("La quantité ou le produit est nul");
                 alert.showAndWait();
             } else {
                 Product product = productList.getSelectionModel().getSelectedItem();
@@ -882,6 +921,15 @@ public class AnnexDetailController {
                     ProductRequest pr = (ProductRequest) request;
                     donation.getProductRequests().add(pr);
                 });
+                /**
+                 * plugin
+                 */
+                PluginModelData pluginModelData = new PluginModelData();
+                pluginModelData.setScreen("créer une donation");
+                pluginModelData.setOutput(null);
+                pluginModelData.setInput(donation);
+                PluginData.pluginModelData = pluginModelData;
+
                 Optional<Donation> donation1 = annexService.createDonation(donation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Ajout d'une donation");
@@ -920,6 +968,16 @@ public class AnnexDetailController {
         border.setCenter(splitPane);
         Pane p = (Pane) border.getChildren().get(0);
         Optional<List<Donation>> optionalDonation = annexService.listDonations(idAnnex);
+        /**
+         * plugin
+         */
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Liste des donations");
+        pluginModelData.setOutput(optionalDonation);
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
+
         this.donationlistVbox = (VBox) p.getChildren().get(0);
         Button newDonation = (Button) p.getChildren().get(1);
         Button back = (Button) p.getChildren().get(3);

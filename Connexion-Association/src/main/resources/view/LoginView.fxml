@@ -24,6 +24,6 @@
         <TextField fx:id="LoginTextField" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
         <Label text="Mot de passe: " />
         <PasswordField fx:id="password" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
-        <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#testRoute" prefHeight="25.0" prefWidth="73.0" text="Connexion" textFill="#11bd25" />
+        <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#login" prefHeight="25.0" prefWidth="73.0" text="Connexion" textFill="#11bd25" />
     </children>
 </VBox>

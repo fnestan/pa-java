@@ -1,6 +1,7 @@
 package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.Information;
+import fr.core.model.customModel.PluginData;
 import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.User;
@@ -51,7 +52,17 @@ public class ListUserDonationController {
         scroll.setContent(gridPane);
         title.setText("Donation de " + user.getFirstname() + " " + user.getLastname());
         Optional<List<UserDonation>> userDonations = iAnnexService.getDonation(donation.getId(), user.getId());
+
+
         if (userDonations.isPresent()) {
+
+            PluginModelData pluginModelData = new PluginModelData();
+            pluginModelData.setScreen("Consultation du stock ");
+            pluginModelData.setOutput(userDonations.get());
+            pluginModelData.setInput(null);
+            PluginData.pluginModelData = pluginModelData;
+
+
             gridPane.add(new Label("Nom du produit"), 0, 0);
             gridPane.add(new Label("Qunatité"), 1, 0);
             gridPane.add(new Label("Statut"), 2, 0);

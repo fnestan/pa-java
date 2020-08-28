@@ -1,5 +1,7 @@
 package fr.core.ui.Controller.manager;
 
+import fr.core.model.customModel.PluginData;
+import fr.core.model.customModel.PluginModelData;
 import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.Service;
 import fr.core.model.databaseModel.User;
@@ -49,6 +51,13 @@ public class GetServiceController {
 
     private void getService() {
         Optional<Service> service = this.iAnnexService.getServiceById(serviceId);
+
+        PluginModelData pluginModelData = new PluginModelData();
+        pluginModelData.setScreen("Consultation du stock ");
+        pluginModelData.setOutput(service.get());
+        pluginModelData.setInput(null);
+        PluginData.pluginModelData = pluginModelData;
+
         labelServiceName.setText("Nom du service : " + service.get().getNom());
         description.setWrapText(true);
         description.setText(service.get().getDescription());
