@@ -1,6 +1,6 @@
 package fr.core.ui.Controller;
 
-import fr.core.model.customModel.PluginModelData;
+import fr.core.model.customModel.PluginData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.Ticket;
 import fr.core.plugin.run.RunPlugin;
@@ -34,7 +34,11 @@ public class MenuBarLoader {
     public MenuBar LoadMenuBar(MenuBar menuBar, Router router) throws Exception {
         boolean fileExist = Files.exists(Path.of(basePath + "/plugins.csv"));
         if (!fileExist) {
-            Files.createDirectory(Path.of(basePath));
+            try {
+                Files.createDirectory(Path.of(basePath));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
             Files.createFile(Path.of(basePath + "/plugins.csv"));
         }
         BufferedReader csvReader = new BufferedReader(new FileReader(basePath + "/plugins.csv"));
@@ -63,8 +67,9 @@ public class MenuBarLoader {
                     menu.getItems().add(exec);
                     exec.setOnAction(actionEvent -> {
                         try {
+                            PluginData pluginData = new PluginData();
                             csvReader.close();
-                            runPlugin.runplugin(menu.getText(), currentData.toString());
+                            runPlugin.runplugin(menu.getText(), pluginData.sendData());
                         } catch (IOException | ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (IllegalAccessException e) {
@@ -76,22 +81,22 @@ public class MenuBarLoader {
                         }
                     });
                 }
-                if (data[2].equals("ON")){
+                if (data[2].equals("ON")) {
                     MenuItem desactivate = new MenuItem("Désactiver");
                     menu.getItems().add(desactivate);
                     desactivate.setOnAction(event -> {
                         try {
-                            runPlugin.setPluginStatus(data[0],"OFF");
+                            runPlugin.setPluginStatus(data[0], "OFF");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-                }else {
+                } else {
                     MenuItem activate = new MenuItem("Activer");
                     menu.getItems().add(activate);
                     activate.setOnAction(event -> {
                         try {
-                            runPlugin.setPluginStatus(data[0],"ON");
+                            runPlugin.setPluginStatus(data[0], "ON");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -199,7 +204,8 @@ public class MenuBarLoader {
             String type = runPlugin.getPluginType();
             File fif = new File(basePath);
             FileWriter csvWriter = new FileWriter(basePath + "/plugins.csv", true);
-            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";OFF" + ";" + type + "\n");
+            csvWriter.append(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";ON" + ";" + type + "\n");
+            System.out.println(fif.getAbsolutePath() + "/" + f.getName() + ";" + load + ";OFF" + ";" + type + "\n");
             csvWriter.close();
             Files.copy(Path.of(f.getAbsolutePath()), Path.of(fif.getAbsolutePath() + "/" + f.getName()));
         } catch (ClassNotFoundException classNotFoundException) {

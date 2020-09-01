@@ -2,7 +2,6 @@ package fr.core.ui.Controller.manager;
 
 import fr.core.model.customModel.PluginData;
 import fr.core.model.customModel.PluginModelData;
-import fr.core.model.databaseModel.Donation;
 import fr.core.model.databaseModel.Service;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IAnnexService;

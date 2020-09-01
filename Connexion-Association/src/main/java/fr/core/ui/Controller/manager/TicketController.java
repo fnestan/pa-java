@@ -1,6 +1,5 @@
 package fr.core.ui.Controller.manager;
 
-import com.sun.source.tree.IfTree;
 import fr.core.model.customModel.PluginData;
 import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;

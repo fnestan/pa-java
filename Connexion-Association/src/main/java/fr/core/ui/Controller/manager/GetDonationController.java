@@ -57,7 +57,7 @@ public class GetDonationController {
         description.setWrapText(true);
         description.setText(donation.get().getDescription());
         if (donation.isPresent()) {
-            
+
             PluginModelData pluginModelData = new PluginModelData();
             pluginModelData.setScreen("Consultation du stock ");
             pluginModelData.setOutput(donation.get());

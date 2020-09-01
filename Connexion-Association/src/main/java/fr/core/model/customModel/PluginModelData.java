@@ -8,8 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PluginModelData {
-    private String screen;
-    private Object input;
-    private Object output;
-
+    public String screen;
+    public Object input;
+    public Object output;
 }

@@ -1,20 +1,11 @@
 package fr.core.plugin.run;
 
-import fr.core.model.customModel.Session;
 import fr.plugin.IPluginCA;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.FileSystemException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

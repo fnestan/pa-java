@@ -1,9 +1,6 @@
 package fr.core.ui.Controller;
 
-import com.sun.source.util.Plugin;
 import fr.core.model.customModel.Login;
-import fr.core.model.customModel.Information;
-import fr.core.model.customModel.PluginModelData;
 import fr.core.model.customModel.Session;
 import fr.core.model.databaseModel.User;
 import fr.core.service.inter.IAuthService;
@@ -14,7 +11,6 @@ import fr.core.ui.Router;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.util.Optional;
 
